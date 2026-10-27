@@ -93,16 +93,17 @@ p{margin:0}
 @media (max-width:520px){.legend3{grid-template-columns:1fr}.legend3 a{grid-template-columns:auto 1fr auto;align-items:center;gap:10px}}
 
 /* filters */
-.filters{scroll-margin-top:72px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding-block:16px;border-block:1px solid var(--line)}
-.flabel{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.filters{scroll-margin-top:72px;display:grid;gap:12px;padding-block:16px;border-block:1px solid var(--line)}
+.frow{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.flabel{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:150px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{font:500 14px/1 var(--font-body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer;transition:background .15s,border-color .15s}
+.chip{font:500 14px/1 var(--font-body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer;transition:border-color .15s}
 .chip:hover{border-color:var(--ink-2);color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.search{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:0;max-width:340px;margin-left:auto;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted)}
+.search{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:0;max-width:420px;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted)}
 .search:focus-within{border-color:var(--accent)}
 .search input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:15px var(--font-body);padding:9px 0;outline:none}
-@media (max-width:700px){.search{max-width:none;margin-left:0}}
+@media (max-width:700px){.search{max-width:none}}
 
 /* groups and tiles */
 .group{padding-top:40px}
@@ -326,7 +327,8 @@ function shade(hex, amt){
 const UI = {
   ru:{
     brand:'Атлас карабинов', navTypes:'Типы', navSpecs:'Характеристики',
-    heroEyebrow:(t,m)=>`${t} ${plural(t,'тип','типа','типов')} · ${m} ${plural(m,'модель','модели','моделей')} · EN 12275 / UIAA 121`,
+    heroEyebrow:(t,m,b)=>`${t} ${plural(t,'тип','типа','типов')} · ${m} ${plural(m,'модель','модели','моделей')} · ${b} ${plural(b,'бренд','бренда','брендов')}`,
+    brandLabel:'Бренд', gateUnknown:'Производитель не указывает раскрытие защёлки', chartMissing:n=>`Нет данных производителя: ${n}.`,
     heroTitle:'Каждый карабин носит свои цифры на спинке',
     heroLead:'Все основные типы карабинов для скалолазания, альпинизма, промальпа и спасработ. У каждой популярной модели указаны данные производителя, а каждая характеристика ведёт на страницу о том, на что она влияет.',
     readSpine:'Как читать маркировку на спинке', hMajor:'Вдоль спинки', hMinor:'Поперёк', hOpen:'Защёлка открыта',
@@ -377,7 +379,8 @@ const UI = {
   },
   en:{
     brand:'Carabiner Atlas', navTypes:'Types', navSpecs:'Specs',
-    heroEyebrow:(t,m)=>`${t} types · ${m} models · EN 12275 / UIAA 121`,
+    heroEyebrow:(t,m,b)=>`${t} types · ${m} models · ${b} brands`,
+    brandLabel:'Brand', gateUnknown:'The manufacturer doesn’t state the gate opening', chartMissing:n=>`No manufacturer data: ${n}.`,
     heroTitle:'Every carabiner wears its numbers on the spine',
     heroLead:'Every major carabiner type for climbing, mountaineering, rope access and rescue. Each popular model lists the manufacturer’s figures, and every spec links to a page on what it actually affects.',
     readSpine:'How to read the spine markings', hMajor:'Along the spine', hMinor:'Across', hOpen:'Gate open',
@@ -452,7 +455,7 @@ const GROUPS = [
 /* ---------- carabiner types ---------- */
 const TYPES = [
 {id:'oval',group:'shape',chip:'EN 12275 · X',vis:{shape:'oval',gate:'straight',lock:'none',color:'#C9A227'},
- models:['petzl-ok','bd-oval','petzl-oxan'],spheres:['rescue','caving','trad','industrial'],
+ models:['petzl-ok','kong-ovalone','bd-oval','petzl-oxan'],spheres:['rescue','caving','trad','industrial'],
  name:{ru:'Овальный',en:'Oval'},
  short:{ru:'Симметричная форма держит блок, жумар или узел строго по центру. Классика для полиспастов и спелеологии.',en:'A symmetrical shape keeps a pulley, ascender or knot centred. The classic for hauling systems and caving.'},
  long:{ru:'Овал — самая старая форма карабина. Из-за симметрии нагрузка делится между спинкой и защёлкой поровну, поэтому при том же весе овал слабее D-образного. Зато всё, что в нём висит, стоит ровно по центру и не перекашивается: блок-ролик не трётся щёчками, зажим не заваливается набок. В EN 12275 для овалов есть отдельный класс X с минимумом 18 кН вдоль спинки, но многие современные овалы проходят и по базовому классу B.',en:'The oval is the oldest carabiner shape. Because it is symmetrical, the spine and the gate share the load equally, so an oval is weaker than a D of the same weight. In return, anything hanging in it sits dead centre: a pulley doesn’t rub its side plates and a rope clamp doesn’t tip over. EN 12275 has a dedicated class X for ovals with an 18 kN major-axis minimum, though many modern ovals also meet basic class B.'},
@@ -460,7 +463,7 @@ const TYPES = [
  cons:{ru:['При том же весе слабее D-образного','Меньше раскрытие защёлки'],en:['Weaker than a D of the same weight','Smaller gate opening']},
  rules:{ru:['Используйте там, где важна центровка: блоки, жумары, лесенки','Держите нагрузку вдоль длинной оси: на овале её легко сместить к защёлке'],en:['Use it where centring matters: pulleys, ascenders, aiders','Keep the load on the long axis: on an oval it easily drifts towards the gate']}},
 {id:'dee',group:'shape',chip:'EN 12275 · B',vis:{shape:'dee',gate:'straight',lock:'none',color:'#2F6FDB'},
- models:['petzl-amd','petzl-djinn','bd-hotforge','dmm-alpha-sport','petzl-smd','bd-oz','wc-helium3','camp-nano22','dmm-phantom','petzl-vulcan'],spheres:['sport','trad','alpine','gym','industrial'],
+ models:['petzl-amd','mammut-crag-wire','dmm-alpha-sport','petzl-djinn','bd-hotforge','salewa-hot-g3-wire','camp-photon-wire','petzl-smd','bd-oz','wc-helium3','camp-nano22','dmm-phantom','petzl-vulcan'],spheres:['sport','trad','alpine','gym','industrial'],
  name:{ru:'D-образный и асимметричный D',en:'D and offset D'},
  short:{ru:'Нагрузка уходит на прочную спинку, отсюда лучшее соотношение веса и прочности. Самая массовая форма в лазании.',en:'Load shifts onto the strong spine, giving the best strength-to-weight ratio. The most common shape in climbing.'},
  long:{ru:'У D-образного карабина ось нагрузки смещена к спинке — самой толстой и прочной части корпуса. Поэтому D прочнее овала при меньшем весе. Асимметричный D (offset D) ещё и сужается к носику: защёлка открывается шире, корпус становится легче. На этой форме построены оттяжки, большинство муфтовых карабинов для станций и почти вся развеска трэд-снаряжения. Базовый класс EN 12275 B требует от 20 кН вдоль спинки и от 7 кН поперёк и с открытой защёлкой.',en:'A D shape pushes the load line towards the spine, the thickest and strongest part of the body, so a D is stronger than an oval at a lower weight. The offset D also narrows towards the nose, which widens the gate opening and trims weight further. Quickdraws, most anchor lockers and almost every trad rack are built on this shape. Basic class B in EN 12275 requires at least 20 kN along the spine and 7 kN cross-loaded or with the gate open.'},
@@ -468,7 +471,7 @@ const TYPES = [
  cons:{ru:['Снаряжение сползает в узкую часть','Поперечная нагрузка снижает прочность в 2–3 раза'],en:['Gear slides into the narrow end','Cross-loading cuts strength two to three times']},
  rules:{ru:['Следите, чтобы нагрузка шла вдоль спинки, а не на защёлку','Узкая часть у спинки рабочая: туда сама уходит нагрузка'],en:['Make sure the load runs along the spine, not onto the gate','The narrow end by the spine is the working end; the load settles there by itself']}},
 {id:'hms',group:'shape',chip:'EN 12275 · H',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#D23B2F'},
- models:['petzl-attache','bd-rocklock','petzl-william','dmm-belay-master-2','bd-gridlock','bd-rocklock-twist','bd-magnetron','petzl-vertigo','kong-tango'],spheres:['gym','sport','alpine','rescue'],
+ models:['petzl-attache','mammut-smart-hms','bd-rocklock','salewa-ortles-hms-s','kong-hms-classic','camp-nimbus-lock','petzl-william','dmm-belay-master-2','bd-gridlock','bd-rocklock-twist','bd-magnetron','petzl-vertigo','kong-tango'],spheres:['gym','sport','alpine','rescue'],
  name:{ru:'Грушевидный (HMS)',en:'Pear (HMS)'},
  short:{ru:'Широкая верхняя часть вмещает узел UIAA и несколько точек сразу. Главный карабин для страховочного устройства и станций.',en:'A wide top holds a Munter hitch and several clips at once. The default carabiner for belay devices and anchors.'},
  long:{ru:'HMS — сокращение от немецкого Halbmastwurfsicherung, страховка полусхватывающим узлом. У нас его называют узлом UIAA, в англоязычной традиции — Munter hitch. Под этот узел и сделан широкий симметричный верх: верёвка переворачивается в нём при смене направления и не заклинивает. Грушевидные карабины почти всегда муфтовые, крупные и с большим раскрытием. Класс EN 12275 H требует от 20 кН вдоль, 7 кН поперёк и 6 кН с открытой защёлкой.',en:'HMS stands for the German Halbmastwurfsicherung, belaying with a Munter hitch. The wide, symmetrical top is shaped for that hitch: the rope flips through it when the direction changes and doesn’t jam. Pear carabiners are almost always locking, large and wide-gated. EN 12275 class H requires at least 20 kN major axis, 7 kN minor axis and 6 kN gate open.'},
@@ -492,15 +495,15 @@ const TYPES = [
  cons:{ru:['Выше риск самовыстёгивания','Подходит только для верёвочного конца оттяжки'],en:['Higher risk of unclipping itself','Only for the rope end of a quickdraw']},
  rules:{ru:['Изогнутая защёлка — к верёвке, прямая — к шлямбуру','Не меняйте карабины оттяжки местами: о стальную проушину на верхнем карабине появляются заусенцы, которые могут повредить верёвку'],en:['Bent gate to the rope, straight gate to the bolt','Never swap the carabiners on a quickdraw: the bolt-end one picks up burrs from steel hangers that can damage the rope']}},
 {id:'wire',group:'gate',chip:'EN 12275 · B',vis:{shape:'dee',gate:'wire',lock:'none',color:'#1597A8'},
- models:['bd-oz','camp-nano22','wc-helium3','dmm-phantom'],spheres:['trad','alpine','sport'],
+ models:['bd-oz','mammut-crag-wire','camp-nano22','salewa-hot-g3-wire','wc-helium3','camp-photon-wire','dmm-phantom'],spheres:['trad','alpine','sport'],
  name:{ru:'Проволочная защёлка',en:'Wiregate'},
  short:{ru:'Защёлка из стальной проволоки: легче, не смерзается и меньше страдает от хлёста при срыве.',en:'A gate of stainless wire: lighter, won’t freeze shut and resists gate whiplash in a fall.'},
- long:{ru:'Вместо литой защёлки — петля из нержавеющей проволоки. Масса защёлки в разы меньше, поэтому при ударе о скалу она почти не открывается по инерции. Проволока не смерзается на холоде, а сам карабин весит 22–40 г. Отсюда популярность в трэде, альпинизме и ледолазании. Минус: тонкую проволоку сложнее поймать пальцами в толстых перчатках.',en:'Instead of a solid gate there is a loop of stainless wire. The gate is many times lighter, so it hardly opens by inertia when the carabiner strikes rock. Wire doesn’t freeze shut in the cold, and the carabiner itself weighs 22–40 g. Hence its popularity on trad, alpine and ice routes. The downside: thin wire is harder to grab in thick gloves.'},
+ long:{ru:'Вместо литой защёлки — петля из нержавеющей проволоки. Масса защёлки в разы меньше, поэтому при ударе о скалу она почти не открывается по инерции. Проволока не смерзается на холоде, а сам карабин весит 22–45 г. Отсюда популярность в трэде, альпинизме и ледолазании. Минус: тонкую проволоку сложнее поймать пальцами в толстых перчатках.',en:'Instead of a solid gate there is a loop of stainless wire. The gate is many times lighter, so it hardly opens by inertia when the carabiner strikes rock. Wire doesn’t freeze shut in the cold, and the carabiner itself weighs 22–45 g. Hence its popularity on trad, alpine and ice routes. The downside: thin wire is harder to grab in thick gloves.'},
  pros:{ru:['Минимальный вес','Не смерзается','Меньше хлёста защёлки'],en:['Minimal weight','Doesn’t freeze shut','Less gate whiplash']},
  cons:{ru:['Компактный корпус хуже лежит в руке','Проволоку сложнее поймать в перчатках'],en:['Small body is harder to handle','Wire is fiddly in gloves']},
  rules:{ru:['Проверяйте, что проволока не деформирована и плотно садится на носик'],en:['Check that the wire is not bent and seats firmly on the nose']}},
 {id:'screw',group:'lock',chip:'EN 12275 · EN 362',vis:{shape:'dee',gate:'straight',lock:'screw',color:'#E2741B'},
- models:['petzl-attache','petzl-amd','petzl-ok','bd-rocklock','petzl-william','bd-oval','bd-gridlock','dmm-belay-master-2','petzl-oxan','petzl-vulcan'],spheres:['gym','alpine','trad','rescue','industrial','caving'],
+ models:['petzl-attache','salewa-ortles-hms-s','camp-nimbus-lock','petzl-amd','kong-hms-classic','mammut-smart-hms','petzl-ok','bd-rocklock','petzl-william','bd-oval','bd-gridlock','dmm-belay-master-2','kong-ovalone','petzl-oxan','petzl-vulcan'],spheres:['gym','alpine','trad','rescue','industrial','caving'],
  name:{ru:'Винтовая муфта',en:'Screwgate'},
  short:{ru:'Муфта накручивается на защёлку и блокирует её. Простая, надёжная, работает в грязи и на морозе.',en:'A threaded sleeve screws over the gate to lock it. Simple, reliable, works in mud and frost.'},
  long:{ru:'Самая простая блокировка: резьбовая муфта закрывает носик. Её легко проверить взглядом (у многих моделей открытую муфту выдаёт красная метка), и она не забивается грязью и льдом. Слабое место — человеческий фактор: муфту забывают закрутить, или она раскручивается от трения верёвки. Поэтому проверка муфты — обязательная часть партнёрской проверки перед стартом.',en:'The simplest locking system: a threaded sleeve covers the nose. It is easy to check at a glance (many models show a red band while unlocked) and it doesn’t clog with mud or ice. The weak point is human: people forget to screw it shut, or rope friction unscrews it. Checking the sleeve is a mandatory part of the partner check.'},
@@ -540,7 +543,7 @@ const TYPES = [
  cons:{ru:['Тяжёлые','Узкая специализация'],en:['Heavy','Single-purpose']},
  rules:{ru:['Используйте только с усом-амортизатором по EN 958','Перестёгивайте карабины по одному, чтобы всегда оставаться пристёгнутым'],en:['Use only with an EN 958 energy-absorbing lanyard','Reclip one carabiner at a time so you are always attached']}},
 {id:'steel',group:'special',chip:'EN 362 · ANSI',vis:{shape:'oval',gate:'straight',lock:'screw',color:'#7D8890'},
- models:['petzl-oxan','petzl-vulcan','petzl-go','petzl-delta'],spheres:['industrial','rescue','caving'],
+ models:['petzl-oxan','kong-ovalone','petzl-vulcan','petzl-go','petzl-delta'],spheres:['industrial','rescue','caving'],
  name:{ru:'Стальные',en:'Steel'},
  short:{ru:'В 2–3 раза тяжелее алюминиевых, зато прочнее и почти не изнашиваются. Промальп, спасработы, станции спуска.',en:'Two to three times heavier than aluminium, but stronger and nearly wear-proof. Rope access, rescue and lower-offs.'},
  long:{ru:'Сталь выдерживает 30–45 кН и в разы лучше сопротивляется истиранию: верёвка с песком не пропиливает в ней канавку, как в алюминии. Поэтому стальные карабины ставят туда, где через них постоянно бежит верёвка (станции спуска, полиспасты), где нужен запас под двоих (спасработы) и где карабин трётся о стальной трос или цепь. Обычно их сертифицируют по EN 362 и ANSI Z359.12 для работ на высоте.',en:'Steel holds 30–45 kN and resists abrasion many times better: gritty rope doesn’t saw a groove into it the way it does into aluminium. So steel goes where rope runs constantly (lower-offs, hauling systems), where a two-person load needs margin (rescue) and where the carabiner rubs against steel cable or chain. Steel connectors are usually certified to EN 362 and ANSI Z359.12 for work at height.'},
@@ -736,9 +739,66 @@ const MODELS = [
  summary:{ru:'Треугольный стальной рапид: держит нагрузку с трёх сторон.',en:'A triangular steel quick link that takes load from three directions.'},
  uses:[
   {s:'caving',ru:'Соединения с нагрузкой с трёх направлений: замыкание обвязок, сбор нескольких петель в одну точку.',en:'Joints loaded from three directions: closing harnesses, gathering several slings into one point.'},
-  {s:'industrial',ru:'Постоянные узлы подвеса: соединение стропов и лент, которые редко разбирают.',en:'Semi-permanent rigging: joining slings and webbing that rarely need opening.'}]}
+  {s:'industrial',ru:'Постоянные узлы подвеса: соединение стропов и лент, которые редко разбирают.',en:'Semi-permanent rigging: joining slings and webbing that rarely need opening.'}]},
+{id:'mammut-smart-hms',brand:'Mammut',name:'Smart HMS 2.0 Screwgate',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#5A6B78'},cls:'H',
+ major:28,minor:11,open:6,weight:93,gate:27.5,material:'al',lock:'screw',standard:'EN 12275',
+ src:'https://www.mammut.com/uk/en/products/2040-02550/smart-hms-2-0-screwgate-carabiner',
+ summary:{ru:'Крупный HMS Mammut на 28 кН с раскрытием 27,5 мм.',en:'Mammut’s large 28 kN HMS with a 27.5 mm gate.'},
+ uses:[
+  {s:'gym',ru:'Крепление страховочного устройства к беседке. Поперёк держит 11 кН — больше всех алюминиевых карабинов атласа.',en:'Connecting a belay device to the harness. It holds 11 kN cross-loaded, the most of any aluminium carabiner in the atlas.'},
+  {s:'alpine',ru:'Станции на мультипитчах: раскрытие 27,5 мм вмещает несколько узлов и петель.',en:'Multi-pitch anchors: the 27.5 mm gate takes several knots and slings.'}]},
+{id:'mammut-crag-wire',brand:'Mammut',name:'Crag Wire',vis:{shape:'dee',gate:'wire',lock:'none',color:'#E3542B'},cls:'B',
+ major:24,minor:9,open:8,weight:43,gate:30,material:'al',lock:'none',standard:'EN 12275',
+ src:'https://www.backcountry.com/mammut-crag-wire-gate-carabiner',
+ summary:{ru:'Проволочный карабин Mammut с самым широким раскрытием в атласе: 30 мм.',en:'Mammut’s wiregate with the widest gate in the atlas: 30 mm.'},
+ uses:[
+  {s:'sport',ru:'Оттяжки Crag Wire: раскрытие 30 мм — самое широкое среди проволочных карабинов атласа, верёвка заходит даже при неточном движении.',en:'Crag Wire quickdraws: the 30 mm gate is the widest of any wiregate in the atlas, so the rope goes in even on a sloppy clip.'},
+  {s:'trad',ru:'Встёжка в закладки и френды на мультипитчах в холод: проволока не смерзается.',en:'Clipping nuts and cams on cold multi-pitch days: the wire won’t freeze shut.'}]},
+{id:'salewa-hot-g3-wire',brand:'Salewa',name:'Hot G3 Wire',vis:{shape:'dee',gate:'wire',lock:'none',color:'#2B6CB0'},cls:'B',
+ major:23,minor:8,open:8,weight:40,gate:null,material:'al',lock:'none',standard:'EN 12275 · UIAA',
+ src:'https://salewa.com/en-gb/hot-g3-wire-carabiner-00-0000001723',
+ summary:{ru:'Горячештампованный проволочный карабин Salewa: 23 кН при весе 40 г.',en:'Salewa’s hot-forged wiregate: 23 kN at 40 g.'},
+ uses:[
+  {s:'alpine',ru:'Лёгкие альпинистские оттяжки и развеска ледобуров: 40 г, проволока не смерзается.',en:'Light alpine draws and racking ice screws: 40 g, and the wire won’t freeze shut.'},
+  {s:'trad',ru:'Встёжка верёвки в точки страховки на длинных маршрутах.',en:'Clipping the rope to protection on long routes.'}]},
+{id:'salewa-ortles-hms-s',brand:'Salewa',name:'Ortles HMS S',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#2F8F83'},cls:'H',
+ major:23,minor:9,open:8,weight:70,gate:null,material:'al',lock:'screw',standard:'EN 12275 · UIAA',
+ src:'https://www.oliunid.com/eu/salewa-ortles-hms-s-screw-lock-climbing-carabiner',
+ summary:{ru:'Компактный HMS Salewa из сплава 7075 с винтовой муфтой.',en:'Salewa’s compact 7075-alloy HMS screwgate.'},
+ uses:[
+  {s:'gym',ru:'Крепление страховочного устройства и страховка узлом UIAA.',en:'Belay device attachment and Munter-hitch belaying.'},
+  {s:'alpine',ru:'Самостраховка на станции узлом «стремя»: при весе 70 г удобно носить несколько штук.',en:'Clove-hitching into anchors: at 70 g it’s easy to carry several.'}]},
+{id:'kong-hms-classic',brand:'Kong',name:'HMS Classic Alu Screw',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#3466A8'},cls:'H',
+ major:22,minor:8,open:6,weight:88,gate:25,material:'al',lock:'screw',standard:'EN 12275 · EN 362 B',
+ src:'https://www.oliunid.com/kong-hms-classic-alu-screw-climbing-carabiner',
+ summary:{ru:'Классический алюминиевый HMS Kong: 22 кН, раскрытие 25 мм.',en:'Kong’s classic aluminium HMS: 22 kN, 25 mm gate.'},
+ uses:[
+  {s:'gym',ru:'Страховка узлом UIAA и крепление страховочного устройства.',en:'Munter-hitch belaying and belay device attachment.'},
+  {s:'industrial',ru:'Соединение элементов в системах для работ на высоте: у карабина есть сертификат EN 362.',en:'Joining components in work-at-height systems: the carabiner is EN 362 certified.'}]},
+{id:'kong-ovalone',brand:'Kong',name:'Ovalone Carbon Screw',vis:{shape:'oval',gate:'straight',lock:'screw',color:'#8E979D'},cls:'B',
+ major:40,minor:15,open:8,weight:205,gate:21,material:'steel',lock:'screw',standard:'EN 362 M · EN 12275 B · UIAA',
+ src:'https://ukrigging.net/shop/all-items/kong-ovalone-carbon-steel-screw-gate/',
+ summary:{ru:'Стальной овал Kong на 40 кН для промальпа и спасработ.',en:'Kong’s 40 kN steel oval for rope access and rescue.'},
+ uses:[
+  {s:'industrial',ru:'Подвес блоков и зажимов на стальных анкерах: овал держит блок по центру, а сталь не боится контакта с металлом.',en:'Hanging pulleys and rope clamps on steel anchors: the oval keeps them centred and steel shrugs off metal contact.'},
+  {s:'rescue',ru:'Полиспасты и точки подвеса в спасательных системах с запасом прочности 40 кН.',en:'Haul systems and hang points in rescue rigs with a 40 kN margin.'}]},
+{id:'camp-photon-wire',brand:'CAMP',name:'Photon Wire',vis:{shape:'dee',gate:'wire',lock:'none',color:'#8E44AD'},cls:'B',
+ major:22,minor:8,open:9,weight:30,gate:26,material:'al',lock:'none',standard:'EN 12275',
+ src:'https://www.gearx.com/products/camp-photon-wire-carabiner-c2v4z',
+ summary:{ru:'Полноразмерный проволочный карабин CAMP: 30 г и раскрытие 26 мм.',en:'CAMP’s full-size wiregate: 30 g and a 26 mm gate.'},
+ uses:[
+  {s:'sport',ru:'Лёгкие оттяжки для спортивных маршрутов: крупный корпус удобно держать, раскрытие 26 мм.',en:'Light sport quickdraws: a large body that’s easy to hold and a 26 mm gate.'},
+  {s:'alpine',ru:'Альпинистские оттяжки и петли: крупную защёлку легко поймать в перчатках.',en:'Alpine draws and slings: the large gate is easy to catch in gloves.'}]},
+{id:'camp-nimbus-lock',brand:'CAMP',name:'Nimbus Lock',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#1F8A70'},cls:'H',
+ major:21,minor:9,open:6,weight:69,gate:22,material:'al',lock:'screw',standard:'EN 12275 H · EN 362 B',
+ src:'https://www.oliunid.com/uk/camp-nimbus-lock-screw-lock-climbing-carabiner',
+ summary:{ru:'Компактный HMS CAMP с винтовой муфтой: 69 г.',en:'CAMP’s compact HMS screwgate at 69 g.'},
+ uses:[
+  {s:'gym',ru:'Крепление страховочного устройства к силовой петле беседки.',en:'Connecting a belay device to the harness belay loop.'},
+  {s:'alpine',ru:'Самостраховка и станции, где важен вес: самый лёгкий грушевидный карабин атласа после Petzl Attache.',en:'Tethering and anchors where weight matters: the lightest pear in the atlas after the Petzl Attache.'}]}
 ];
 const MBY = Object.fromEntries(MODELS.map(m=>[m.id,m]));
+const BRANDS = [...new Set(MODELS.map(m=>m.brand))].sort((a,b)=>a.localeCompare(b));
 const TBY = Object.fromEntries(TYPES.map(t=>[t.id,t]));
 const HERO_MODEL = 'bd-hotforge';
 
@@ -765,13 +825,13 @@ const SPECS = [
 {id:'weight',unit:'g',num:true,
  name:{ru:'Вес',en:'Weight'},
  short:{ru:'Масса карабина. В атласе от 22 до 235 г.',en:'The carabiner’s mass. In this atlas, 22 to 235 g.'},
- what:{ru:'Масса одного карабина в граммах. Разброс огромный: проволочные весят 22–40 г, стальные — до 235 г. У муфтовой и автоматической версий одной модели вес разный.',en:'The mass of one carabiner in grams. The range is huge: wiregates weigh 22–40 g, steel models up to 235 g. Screwgate and auto-locking versions of one model differ.'},
+ what:{ru:'Масса одного карабина в граммах. Разброс огромный: проволочные весят 22–45 г, стальные — до 235 г. У муфтовой и автоматической версий одной модели вес разный.',en:'The mass of one carabiner in grams. The range is huge: wiregates weigh 22–45 g, steel models up to 235 g. Screwgate and auto-locking versions of one model differ.'},
  how:{ru:'Производитель взвешивает серийный экземпляр. Цвет анодирования и маркировка на вес почти не влияют.',en:'The manufacturer weighs a production sample. Anodising colour and markings make almost no difference.'},
  affects:{ru:['Вес всей развески: 30 карабинов по 50 г — это 1,5 кг, по 28 г — 840 г.','Износ: у лёгких карабинов тоньше профиль под верёвкой, канавка протирается быстрее и может стать острой.','Удобство: крупный карабин легче схватить в перчатках и проще открыть.'],en:['Rack weight: 30 carabiners at 50 g weigh 1.5 kg; at 28 g, 840 g.','Wear: light carabiners have a thinner rope-bearing surface, so grooves form faster and can turn sharp.','Handling: a bigger carabiner is easier to grab and open in gloves.']}},
 {id:'gate',unit:'mm',num:true,
  name:{ru:'Раскрытие защёлки',en:'Gate opening'},
  short:{ru:'Просвет между носиком и полностью открытой защёлкой.',en:'Clearance between the nose and the fully open gate.'},
- what:{ru:'Максимальный зазор, через который можно завести верёвку, петлю или анкер. В атласе — от 10 мм у треугольного рапида до 29 мм у крупного стального карабина.',en:'The largest gap you can pass a rope, sling or anchor through. In this atlas, from 10 mm on a triangular quick link to 29 mm on a large steel carabiner.'},
+ what:{ru:'Максимальный зазор, через который можно завести верёвку, петлю или анкер. В атласе — от 10 мм у треугольного рапида до 30 мм у проволочного Mammut Crag Wire.',en:'The largest gap you can pass a rope, sling or anchor through. In this atlas, from 10 mm on a triangular quick link to 30 mm on the Mammut Crag Wire.'},
  how:{ru:'Защёлку открывают до упора и измеряют расстояние от носика до внутренней поверхности защёлки в миллиметрах.',en:'The gate is opened fully and the distance from the nose to the inside of the gate is measured in millimetres.'},
  affects:{ru:['Встёгивание толстых точек: деревья, балки, широкие анкеры, несколько петель сразу.','Работа в перчатках и на морозе.','Скорость встёжки верёвки: широкий зев прощает неточное движение.','Компромисс: большое раскрытие означает длинный ход защёлки и чуть больший вес.'],en:['Clipping thick points: trees, beams, wide anchors, several slings at once.','Working in gloves and in the cold.','Clipping speed: a wide gate forgives a sloppy movement.','The trade-off: a wide opening means a longer gate stroke and a little more weight.']}},
 {id:'material',unit:null,num:false,
@@ -809,7 +869,7 @@ const STANDARDS = [
 ];
 
 /* ---------- state ---------- */
-const state = {lang:'ru', sphere:'all', q:'', route:''};
+const state = {lang:'ru', sphere:'all', brand:'all', q:'', route:''};
 try{const s=localStorage.getItem('carabiner-atlas-lang');if(s==='ru'||s==='en')state.lang=s;}catch(e){}
 const L = o => (o && typeof o==='object' && 'ru' in o) ? o[state.lang] : o;
 const T = k => UI[state.lang][k];
@@ -819,7 +879,7 @@ let heroTimer = null;
 /* ---------- drawing ---------- */
 const SHAPES = {
   oval:{d:'M92 64 L92 52 A32 32 0 0 0 28 52 L28 148 A32 32 0 0 0 92 148 L92 136',n:[92,64],h:[92,136],st:[28,142,-90]},
-  dee:{d:'M78 60 C78 26 30 18 30 52 L30 148 C30 184 96 186 96 138',n:[78,60],h:[96,138],st:[30,142,-90]},
+  dee:{d:'M78 140 C78 174 30 182 30 148 L30 52 C30 16 96 14 96 62',n:[96,62],h:[78,140],st:[30,142,-90]},
   hms:{d:'M98 80 C102 32 62 14 42 20 C24 26 20 46 24 66 L40 156 C44 182 82 184 85 158 L86 150',n:[98,80],h:[86,150],st:[38.2,146,-100.1]},
   link:{d:'M88 82 L88 54 A28 28 0 0 0 32 54 L32 146 A28 28 0 0 0 88 146 L88 118',n:[88,82],h:[88,118],st:[32,136,-90]},
   delta:{d:'M87 130 L96 162 L24 162 L60 34 L72 76',n:[72,76],h:[87,130],st:null}
@@ -850,12 +910,13 @@ function biner(v, o={}){
   if(v.lock==='lever') g += `<path d="M${pt(.12,7.5)} L${pt(.6,7.5)}" stroke="#4A535A" stroke-width="5" stroke-linecap="round"/>`;
   if(v.lock==='magnet'){for(const off of [-6.5,6.5]) g += `<path d="M${pt(.18,off)} L${pt(.78,off)}" stroke="#4A535A" stroke-width="3.2" stroke-linecap="round"/>`;}
   if(v.lock==='quicklink'){g += sleeve(-.14,1.14,14,'#9AA3A9');for(const t of [0,.18,.36,.54,.72,.9]) g += `<path d="M${pt(t,-7)} L${pt(t+.06,7)}" stroke="#5B646A" stroke-width="1"/>`;}
-  s += o.hero ? `<g class="gate">${g}</g>` : g;
+  s += o.hero ? `<g class="gate" style="transform-origin:${hx<nx?'0%':'100%'} 100%">${g}</g>` : g;
   if(v.belay==='clip') s += `<path d="M34 146 Q58 170 85 152" fill="none" stroke="#D23B2F" stroke-width="5" stroke-linecap="round" opacity=".92"/>`;
   if(o.hero){
     s += `<g class="ax ax-major"><path d="M10 46 V154"/><path d="M5 54 L10 42 L15 54"/><path d="M5 146 L10 158 L15 146"/></g>`;
     s += `<g class="ax ax-minor"><path d="M40 104 H84"/><path d="M46 99 L39 104 L46 109"/><path d="M78 99 L85 104 L78 109"/></g>`;
-    s += `<g class="ax ax-open"><path d="M78 60 A80 80 0 0 0 48 74"/></g>`;
+    const th = -24*Math.PI/180, rx = (hx+dx*Math.cos(th)-dy*Math.sin(th)).toFixed(1), ry = (hy+dx*Math.sin(th)+dy*Math.cos(th)).toFixed(1);
+    s += `<g class="ax ax-open"><path d="M${nx} ${ny} A${len.toFixed(1)} ${len.toFixed(1)} 0 0 0 ${rx} ${ry}"/></g>`;
   }
   return s + '</svg>';
 }
@@ -876,14 +937,24 @@ function picto(kind, size=24){
   return `<svg class="pict" width="${size}" height="${size*0.75}" viewBox="0 0 32 24" ${a} aria-hidden="true">${P[kind]||''}</svg>`;
 }
 function logoSVG(){
-  return `<svg viewBox="0 0 120 200" width="14" height="23" aria-hidden="true"><path d="${SHAPES.dee.d}" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"/><path d="M96 138 L78 60" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".45"/></svg>`;
+  const S = SHAPES.dee;
+  return `<svg viewBox="0 0 120 200" width="14" height="23" aria-hidden="true"><path d="${S.d}" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round"/><path d="M${S.h.join(' ')} L${S.n.join(' ')}" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity=".45"/></svg>`;
+}
+function setFavicon(){
+  const S = SHAPES.dee;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 0 200 200"><path d="${S.d}" fill="none" stroke="#E2741B" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="M${S.h.join(' ')} L${S.n.join(' ')}" stroke="#9AA3A9" stroke-width="12" stroke-linecap="round"/></svg>`;
+  let link = document.querySelector('link[rel="icon"]');
+  if(!link){link = document.createElement('link');link.rel = 'icon';(document.head||document.documentElement).appendChild(link);}
+  link.type = 'image/svg+xml';
+  link.href = 'data:image/svg+xml,'+encodeURIComponent(svg);
 }
 
 /* ---------- data helpers ---------- */
 const typeModels = t => t.models.map(id=>MBY[id]).filter(Boolean);
 const modelTypes = m => TYPES.filter(t=>t.models.includes(m.id));
 const modelSpheres = m => m.uses.map(u=>u.s);
-const val = (m,k,unit) => m[k]==null ? '—' : `${m[k]}${unit?` <small>${U(unit)}</small>`:''}`;
+const fmt = v => v==null ? '—' : (state.lang==='ru' ? String(v).replace('.',',') : String(v));
+const val = (m,k,unit) => m[k]==null ? '—' : `${fmt(m[k])}${unit?` <small>${U(unit)}</small>`:''}`;
 function stdTokens(m){return STANDARDS.filter(s=>m.standard.includes(s.k)).map(s=>s.k);}
 
 /* ---------- shared fragments ---------- */
@@ -905,7 +976,7 @@ function viewHome(){
   return `
   <section class="hero">
     <div>
-      <p class="eyebrow">${T('heroEyebrow')(TYPES.length, MODELS.length)}</p>
+      <p class="eyebrow">${T('heroEyebrow')(TYPES.length, MODELS.length, BRANDS.length)}</p>
       <h1>${T('heroTitle')}</h1>
       <p class="lead">${T('heroLead')}</p>
       <div class="read">
@@ -919,8 +990,10 @@ function viewHome(){
     </div>
   </section>
   <div class="filters">
-    <span class="flabel" id="sphLabel">${T('sphereLabel')}</span>
-    <div class="chips" role="group" aria-labelledby="sphLabel">${['all',...Object.keys(SPHERES)].map(id=>`<button type="button" class="chip" data-sphere="${id}" aria-pressed="${state.sphere===id}">${id==='all'?T('all'):L(SPHERES[id])}</button>`).join('')}</div>
+    <div class="frow"><span class="flabel" id="sphLabel">${T('sphereLabel')}</span>
+    <div class="chips" role="group" aria-labelledby="sphLabel">${['all',...Object.keys(SPHERES)].map(id=>`<button type="button" class="chip" data-sphere="${id}" aria-pressed="${state.sphere===id}">${id==='all'?T('all'):L(SPHERES[id])}</button>`).join('')}</div></div>
+    <div class="frow"><span class="flabel" id="brLabel">${T('brandLabel')}</span>
+    <div class="chips" role="group" aria-labelledby="brLabel">${['all',...BRANDS].map(b=>`<button type="button" class="chip" data-brand="${esc(b)}" aria-pressed="${state.brand===b}">${b==='all'?T('all'):esc(b)}</button>`).join('')}</div></div>
     <label class="search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11 L14.5 14.5" stroke-linecap="round"/></svg><input id="q" type="search" autocomplete="off" placeholder="${esc(T('searchPh'))}" aria-label="${esc(T('searchLabel'))}" value="${esc(state.q)}"></label>
   </div>
   <div id="groups"></div>
@@ -949,6 +1022,10 @@ function renderGroups(){
   const html = GROUPS.map(g=>{
     const tiles = TYPES.filter(t=>t.group===g.id).map(t=>{
       let ms = typeModels(t);
+      if(state.brand!=='all'){
+        ms = ms.filter(m=>m.brand===state.brand);
+        if(!ms.length) return '';
+      }
       if(sph!=='all'){
         if(!t.spheres.includes(sph) && !ms.some(m=>modelSpheres(m).includes(sph))) return '';
         const hit = ms.filter(m=>modelSpheres(m).includes(sph));
@@ -1007,7 +1084,7 @@ function viewType(t){
   ${t.checklist ? `<section class="sec"><h2>${T('checklist')}</h2><div class="box" style="max-width:72ch"><ul class="plist check">${L(t.checklist).map(x=>`<li>${x}</li>`).join('')}</ul></div></section>` : ''}
   ${ms.length ? `<section class="sec"><h2>${T('modelsOfType')}</h2>
     <div class="tablewrap"><table class="cmp"><thead><tr><th>${T('colModel')}</th>${cols.map(([k,u])=>`<th><a href="#spec-${k}">${picto(k,18)}${L(SBY[k].name)}, ${U(u)}</a></th>`).join('')}</tr></thead>
-    <tbody>${ms.map(m=>`<tr><td><a href="#m-${m.id}"><span class="mbrand">${esc(m.brand)}</span> ${esc(m.name)}</a></td>${cols.map(([k])=>`<td class="${bests[k]!=null&&m[k]===bests[k]?'best':''}">${m[k]==null?'—':m[k]}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>` : ''}`;
+    <tbody>${ms.map(m=>`<tr><td><a href="#m-${m.id}"><span class="mbrand">${esc(m.brand)}</span> ${esc(m.name)}</a></td>${cols.map(([k])=>`<td class="${bests[k]!=null&&m[k]===bests[k]?'best':''}">${fmt(m[k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>` : ''}`;
 }
 
 function viewModel(m){
@@ -1015,12 +1092,12 @@ function viewModel(m){
   const all = MODELS.length;
   const meter = (k) => {
     const sc = SCALE[k], v = m[k];
-    if(v==null) return `<div class="meterbox"><p class="mcap">${T('notRatedOpen')}</p></div>`;
+    if(v==null) return `<div class="meterbox"><p class="mcap">${k==='open'?T('notRatedOpen'):T('gateUnknown')}</p></div>`;
     const min = m.cls && EN_MIN[m.cls] ? EN_MIN[m.cls][k] : null;
     let cap = '';
     if(['major','minor','open'].includes(k) && min!=null) cap = T('enMinCap')(m.cls,min);
     if(k==='weight') cap = T('lighter')(MODELS.filter(x=>x.weight>v).length, all);
-    if(k==='gate') cap = m.gateNote ? L(m.gateNote) : T('wider')(MODELS.filter(x=>x.gate<v).length, all);
+    if(k==='gate'){const known = MODELS.filter(x=>x.gate!=null);cap = m.gateNote ? L(m.gateNote) : T('wider')(known.filter(x=>x.gate<v).length, known.length);}
     return `<div class="meterbox"><div class="meter"><i style="width:${Math.min(100,v/sc.max*100)}%"></i>${min!=null&&['major','minor','open'].includes(k)?`<b style="left:${min/sc.max*100}%"></b>`:''}</div>${cap?`<p class="mcap">${cap}</p>`:''}</div>`;
   };
   const label = k => `<div class="slabel">${picto(k,26)}<div><a href="#spec-${k}">${L(SBY[k].name)}</a><small><a href="#spec-${k}">${T('whatMeans')} →</a></small></div></div>`;
@@ -1066,13 +1143,15 @@ function chartHTML(s){
   const n = sc.max/sc.step, minB = EN_MIN.B[s.id];
   const showMin = ['major','minor','open'].includes(s.id);
   const ticks = Array.from({length:n+1},(_,i)=>i*sc.step);
+  const missing = s.id==='open' ? [] : MODELS.filter(m=>m[s.id]==null);
   return `<div class="chart" style="--n:${n}">
     <div class="chart-head"><h2>${T('inCatalog')}</h2><p>${T('chartNote')(unit)}</p></div>
     ${showMin?`<p class="clegend"><span class="dash"></span>${T('enLine')(minB)}</p>`:''}
-    <div class="crows">${rows.map(m=>{const v=m[s.id];const tip=`${m.brand} ${m.name}|${v} ${unit}${m.cls?' · EN 12275 '+m.cls:''} · ${T('mat')[m.material]}`;
-      return `<a class="crow" href="#m-${m.id}" data-tip="${esc(tip)}"><span class="cname"><span class="mbrand">${esc(m.brand)}</span> ${esc(m.name)}</span><span class="ctrack">${showMin?`<span class="cmin" style="left:${minB/sc.max*100}%"></span>`:''}<span class="cfill" style="width:${v/sc.max*100}%"></span></span><span class="cval">${v} <small>${unit}</small></span></a>`;}).join('')}</div>
+    <div class="crows">${rows.map(m=>{const v=m[s.id];const tip=`${m.brand} ${m.name}|${fmt(v)} ${unit}${m.cls?' · EN 12275 '+m.cls:''} · ${T('mat')[m.material]}`;
+      return `<a class="crow" href="#m-${m.id}" data-tip="${esc(tip)}"><span class="cname"><span class="mbrand">${esc(m.brand)}</span> ${esc(m.name)}</span><span class="ctrack">${showMin?`<span class="cmin" style="left:${minB/sc.max*100}%"></span>`:''}<span class="cfill" style="width:${v/sc.max*100}%"></span></span><span class="cval">${fmt(v)} <small>${unit}</small></span></a>`;}).join('')}</div>
     <div class="caxis" aria-hidden="true"><span></span><span class="ticks">${ticks.map(t=>`<span style="left:${t/sc.max*100}%">${t}</span>`).join('')}</span><span></span></div>
     ${s.id==='open'?`<p class="cnote">${T('noOpenNote')}</p>`:''}
+    ${missing.length?`<p class="cnote">${T('chartMissing')(missing.map(m=>esc(m.brand+' '+m.name)).join(', '))}</p>`:''}
   </div>`;
 }
 function groupsHTML(s){
@@ -1089,13 +1168,13 @@ function asideHTML(s){
     return `<div class="box"><h3>${T('norms')}</h3><table class="norm"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${Object.entries(EN_MIN).map(([c,v])=>`<tr><td>${T('clsNames')[c]}</td><td>${v.major}</td><td>${v.minor}</td><td>${v.open==null?'—':v.open}</td></tr>`).join('')}</tbody></table></div>`;
   }
   if(s.id==='weight' || s.id==='gate'){
-    const sorted = [...MODELS].sort((a,b)=>a[s.id]-b[s.id]), lo = sorted[0], hi = sorted[sorted.length-1];
+    const sorted = MODELS.filter(m=>m[s.id]!=null).sort((a,b)=>a[s.id]-b[s.id]), lo = sorted[0], hi = sorted[sorted.length-1];
     let extra = '';
     if(s.id==='weight'){
       const avg = k => Math.round(MODELS.filter(m=>m.material===k).reduce((a,m)=>a+m.weight,0)/MODELS.filter(m=>m.material===k).length);
       extra = `<h3 style="margin-top:18px">${T('avgW')}</h3><div class="kinds"><div><b>${T('mat').al}</b><span class="mono">${avg('al')} ${T('g')}</span></div><div><b>${T('mat').steel}</b><span class="mono">${avg('steel')} ${T('g')}</span></div></div>`;
     }
-    return `<div class="box"><h3>${T('range')}</h3><div class="kinds"><div><b class="mono">${lo[s.id]} ${U(s.unit)}</b><span><a href="#m-${lo.id}">${esc(lo.brand)} ${esc(lo.name)}</a></span></div><div><b class="mono">${hi[s.id]} ${U(s.unit)}</b><span><a href="#m-${hi.id}">${esc(hi.brand)} ${esc(hi.name)}</a></span></div></div>${extra}</div>`;
+    return `<div class="box"><h3>${T('range')}</h3><div class="kinds"><div><b class="mono">${fmt(lo[s.id])} ${U(s.unit)}</b><span><a href="#m-${lo.id}">${esc(lo.brand)} ${esc(lo.name)}</a></span></div><div><b class="mono">${fmt(hi[s.id])} ${U(s.unit)}</b><span><a href="#m-${hi.id}">${esc(hi.brand)} ${esc(hi.name)}</a></span></div></div>${extra}</div>`;
   }
   if(s.id==='lock') return `<div class="box"><h3>${T('lockKinds')}</h3><div class="kinds">${Object.keys(T('lock')).map(k=>`<div><b>${T('lock')[k]}</b><span>${T('lockDesc')[k]}</span></div>`).join('')}</div></div>`;
   if(s.id==='nose') return `<div class="box"><h3>${T('noseKinds')}</h3><div class="kinds"><div><b>${T('nose').keylock}</b><span>${T('noseDesc').keylock}</span></div><div><b>${T('nose').clean}</b><span>${T('noseDesc').clean}</span></div><div><b>${T('noseHook')}</b><span>${T('noseDesc').hook}</span></div></div></div>`;
@@ -1177,7 +1256,9 @@ document.addEventListener('click', e=>{
   if(lang){setLang(lang.dataset.lang);return;}
   const chip = e.target.closest('[data-sphere]');
   if(chip){state.sphere = chip.dataset.sphere;document.querySelectorAll('[data-sphere]').forEach(b=>b.setAttribute('aria-pressed',String(b===chip)));renderGroups();return;}
-  if(e.target.closest('[data-reset]')){state.sphere='all';state.q='';render('');return;}
+  const br = e.target.closest('[data-brand]');
+  if(br){state.brand = br.dataset.brand;document.querySelectorAll('[data-brand]').forEach(b=>b.setAttribute('aria-pressed',String(b===br)));renderGroups();return;}
+  if(e.target.closest('[data-reset]')){state.sphere='all';state.brand='all';state.q='';render('');return;}
   const sg = e.target.closest('[data-sphere-go]');
   if(sg){e.preventDefault();state.sphere = sg.dataset.sphereGo;state.q='';go('');const f=document.querySelector('.filters');if(f) f.scrollIntoView({block:'start'});return;}
   const a = e.target.closest('a[href^="#"]');
@@ -1201,6 +1282,7 @@ document.addEventListener('mousemove', e=>{
   tip.style.left = x+'px'; tip.style.top = (y+tip.offsetHeight>window.innerHeight ? e.clientY-tip.offsetHeight-10 : y)+'px';
 });
 
+setFavicon();
 renderChrome();
 render(location.hash.slice(1));
 </script>

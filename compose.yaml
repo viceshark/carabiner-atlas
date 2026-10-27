@@ -1,0 +1,7 @@
+services:
+  atlas:
+    build: .
+    image: carabiner-atlas
+    ports:
+      - "${ATLAS_PORT:-8090}:80"
+    restart: unless-stopped
