@@ -28,6 +28,42 @@ docker build -t carabiner-atlas .
 
 Образ основан на `nginx:1.27-alpine`. При сборке страница оборачивается в полноценный HTML-документ и отдаётся как `index.html`.
 
+## Деплой: образ из GitHub, запуск на сервере
+
+При каждом пуше в `main` GitHub Actions (`.github/workflows/docker-image.yml`) собирает образ для `linux/amd64` и `linux/arm64` и публикует его в GitHub Container Registry:
+
+| Тег | Когда появляется |
+|---|---|
+| `ghcr.io/viceshark/carabiner-atlas:latest` | последний коммит в `main` |
+| `ghcr.io/viceshark/carabiner-atlas:sha-<коммит>` | каждая сборка, для отката |
+| `ghcr.io/viceshark/carabiner-atlas:1.2.0` | пуш тега `v1.2.0` |
+
+Собрать заново без нового коммита можно кнопкой Run workflow на вкладке Actions.
+
+**Доступ к образу.** Новый пакет в GHCR может оказаться приватным, даже если репозиторий публичный. После первой сборки откройте страницу пакета (профиль на GitHub → Packages → carabiner-atlas → Package settings) и выберите один из вариантов:
+
+- сделать пакет публичным (Change visibility → Public): тогда на сервере логин не нужен;
+- оставить приватным и один раз войти на сервере токеном с правом `read:packages`:
+
+```bash
+echo "<токен>" | docker login ghcr.io -u viceshark --password-stdin
+```
+
+**На сервере** нужен только файл `deploy/compose.yaml`, исходники не нужны. Скопируйте его в папку на сервере, например `~/carabiner-atlas/compose.yaml`, и выполните в этой папке:
+
+```bash
+docker compose pull && docker compose up -d
+```
+
+Атлас будет на порту 8090. Порт и тег задаются переменными `ATLAS_PORT` и `ATLAS_TAG`, например в файле `.env` рядом с `compose.yaml`:
+
+```
+ATLAS_PORT=80
+ATLAS_TAG=latest
+```
+
+Обновление после нового пуша в `main` — та же команда `docker compose pull && docker compose up -d`. Откат: укажите в `ATLAS_TAG` нужный `sha-<коммит>` и выполните её же.
+
 ## Как открыть без Docker
 
 Откройте `carabiner-atlas.html` в браузере. Или запустите локальный сервер в папке проекта:

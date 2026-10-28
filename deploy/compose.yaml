@@ -1,0 +1,10 @@
+# Server setup: runs the image built by GitHub Actions, no source code needed.
+# Copy this file to the server, then: docker compose pull && docker compose up -d
+name: carabiner-atlas
+
+services:
+  atlas:
+    image: ghcr.io/viceshark/carabiner-atlas:${ATLAS_TAG:-latest}
+    ports:
+      - "${ATLAS_PORT:-8090}:80"
+    restart: unless-stopped
