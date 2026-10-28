@@ -19,6 +19,10 @@
   --warn:#A8261A;
   --warn-soft:#F6DCD7;
   --emboss:rgba(255,255,255,.6);
+  --good:#2E7A4B;
+  --good-soft:#D9EEDF;
+  --caution:#9A5B00;
+  --caution-soft:#F6E5C6;
   --shadow:0 1px 0 rgba(19,25,28,.04),0 10px 24px -18px rgba(19,25,28,.35);
   --font-display:"Unbounded","Arial Black",system-ui,sans-serif;
   --font-body:"Golos Text","Segoe UI",system-ui,-apple-system,sans-serif;
@@ -27,13 +31,13 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#101416;--surface:#171C1F;--surface-2:#20272B;--ink:#ECF0F0;--ink-2:#B3BDC1;--muted:#8A969C;--line:#2C3539;
-    --accent:#FF7A3D;--accent-soft:#3A2116;--on-accent:#140A05;--warn:#FF8A7A;--warn-soft:#3A1915;--emboss:rgba(0,0,0,.55);
+    --accent:#FF7A3D;--accent-soft:#3A2116;--on-accent:#140A05;--warn:#FF8A7A;--warn-soft:#3A1915;--emboss:rgba(0,0,0,.55);--good:#6CCB8E;--good-soft:#173322;--caution:#F2B64A;--caution-soft:#3A2A10;
     --shadow:0 1px 0 rgba(0,0,0,.3),0 12px 28px -18px rgba(0,0,0,.85);color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#101416;--surface:#171C1F;--surface-2:#20272B;--ink:#ECF0F0;--ink-2:#B3BDC1;--muted:#8A969C;--line:#2C3539;
-  --accent:#FF7A3D;--accent-soft:#3A2116;--on-accent:#140A05;--warn:#FF8A7A;--warn-soft:#3A1915;--emboss:rgba(0,0,0,.55);
+  --accent:#FF7A3D;--accent-soft:#3A2116;--on-accent:#140A05;--warn:#FF8A7A;--warn-soft:#3A1915;--emboss:rgba(0,0,0,.55);--good:#6CCB8E;--good-soft:#173322;--caution:#F2B64A;--caution-soft:#3A2A10;
   --shadow:0 1px 0 rgba(0,0,0,.3),0 12px 28px -18px rgba(0,0,0,.85);color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -294,6 +298,84 @@ table.norm{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums
 .site-footer b{color:var(--ink);font-family:var(--font-display);font-weight:600}
 @media (max-width:700px){.site-footer .wrap{grid-template-columns:1fr}}
 
+/* nav short labels */
+.nav .ns{display:none}
+@media (max-width:600px){.nav .nl{display:none}.nav .ns{display:inline}}
+
+/* notices */
+.notice{display:grid;gap:4px;padding:12px 14px;border:1px solid var(--warn);border-radius:6px;background:var(--warn-soft);max-width:72ch}
+.notice b{color:var(--warn)}
+.notice p{font-size:.9375rem}
+.notice.note{border-color:var(--accent);background:var(--accent-soft)}
+.notice.note b{color:var(--ink)}
+
+/* calculator */
+.ctagrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.calccta{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:12px 24px;padding:24px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-decoration:none;transition:border-color .2s}
+.calccta:hover{border-color:var(--accent)}
+.calccta > div{display:grid;gap:6px;max-width:64ch}
+.calccta p:not(.eyebrow){color:var(--ink-2)}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:24px;align-items:start}
+@media (max-width:860px){.calc{grid-template-columns:1fr}}
+.cform{display:grid;gap:18px}
+.field{display:grid;gap:6px}
+.field label,.seg legend{font-weight:600}
+.field small{font-size:.8125rem}
+.flab{position:relative;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.flab output{font-family:var(--font-mono);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.field select{font:15px var(--font-body);padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);width:100%}
+.field input[type="range"]{width:100%;accent-color:var(--accent)}
+.seg{position:relative;border:0;padding:0;margin:0;display:grid;gap:6px;min-width:0}
+.seg .seg,.seg .field{margin-top:4px}
+.seg legend{padding:0;margin-bottom:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:6px;cursor:pointer;background:var(--surface)}
+.opt input{margin-top:3px;accent-color:var(--accent)}
+.opt small{display:block;color:var(--muted);font-size:.8125rem}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.calc-out{display:grid;gap:0;padding:20px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.cbig{display:grid;gap:4px;padding-bottom:16px}
+.cforce{font-family:var(--font-mono);font-size:1.25rem;color:var(--ink-2)}
+.cforce b{font-family:var(--font-display);font-weight:700;font-size:clamp(2.4rem,1.6rem + 3vw,3.4rem);color:var(--ink);letter-spacing:-.02em;margin-right:4px}
+.cbig .muted{font-size:.875rem}
+.dir{display:grid;gap:8px;padding:14px 0;border-top:1px solid var(--line)}
+.dhead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.dhead .pict{color:var(--ink-2)}
+.dhead b{flex:1 1 auto}
+.dhead .mono{font-size:.875rem;color:var(--ink-2)}
+.stchip{font-family:var(--font-mono);font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.st-ok .stchip{background:var(--good-soft);color:var(--good)}
+.st-edge .stchip{background:var(--caution-soft);color:var(--caution)}
+.st-break .stchip{background:var(--warn-soft);color:var(--warn)}
+.st-ok .stchip::before{content:"✓ "}
+.st-edge .stchip::before{content:"! "}
+.st-break .stchip::before{content:"✕ "}
+.dbar{position:relative;height:10px;background:var(--surface-2);border-radius:0 4px 4px 0}
+.dbar i{position:absolute;inset:0 auto 0 0;border-radius:0 4px 4px 0;background:var(--good)}
+.st-edge .dbar i{background:var(--caution)}
+.st-break .dbar i{background:var(--warn)}
+.thr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;margin:0}
+.thr dt{font-size:.75rem;color:var(--muted)}
+.thr dd{margin:0;font-size:.875rem;font-weight:500}
+@media (max-width:480px){.thr{grid-template-columns:1fr}}
+.hint{display:inline-flex;vertical-align:middle;margin-left:6px}
+.hbtn{display:inline-grid;place-items:center;width:18px;height:18px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface-2);color:var(--ink-2);font:700 11px/1 var(--font-mono);cursor:help}
+.hbtn:hover,.hbtn:focus-visible{border-color:var(--accent);color:var(--accent)}
+.htip{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:15;padding:10px 12px;border-radius:6px;background:var(--ink);color:var(--bg);font:400 .8125rem/1.45 var(--font-body);text-transform:none;letter-spacing:normal;box-shadow:0 10px 24px -12px rgba(0,0,0,.5)}
+.seg > legend .htip{top:28px}
+.hint:hover .htip,.hint:focus-within .htip{display:block}
+.ctabs{display:inline-flex;margin-bottom:18px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.ctabs a{padding:8px 18px;text-decoration:none;font-weight:600;font-size:.9375rem;color:var(--ink-2);background:var(--surface)}
+.ctabs a:hover{color:var(--ink)}
+.ctabs a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+.verdict .stchip{display:inline-block;font-family:var(--font-display);font-size:clamp(1.15rem,1rem + .8vw,1.5rem);font-weight:600;padding:8px 16px;border-radius:8px;white-space:normal}
+.reasons{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.reasons li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+.reasons b{font-weight:600}
+.reasons p{font-size:.875rem;color:var(--ink-2);margin-top:2px}
+@media (max-width:480px){.reasons li{grid-template-columns:1fr;gap:6px}.reasons .stchip{justify-self:start}}
+.calc-out > .mcap{margin-top:12px}
+
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
 }
@@ -342,7 +424,82 @@ const UI = {
     specsLead:'Девять характеристик, которые есть у каждого карабина. На странице каждой — как её измеряют и на что она влияет в реальной работе.',
     home:'Главная', where:'Где применяют', pros:'Плюсы', cons:'Минусы', rules:'Как использовать правильно',
     modelsOfType:'Популярные модели этого типа', colModel:'Модель', specsH:'Характеристики',
-    whatMeans:'что это значит', useH:'Где и как применяют', similar:'Похожие модели', source:'Источник данных',
+    whatMeans:'что это значит', useH:'Где и как применяют', similar:'Похожие модели', source:'Страница производителя',
+    noSrc:'на сайте производителя страницы этой модели больше нет', noticeTitle:'Отзыв для проверки', noticeLink:'Уведомление UIAA',
+    navCalc:'Калькуляторы', navCalcShort:'Расчёт', navSpecsShort:'Цифры', kg:'кг', m:'м',
+    calcEyebrow:'Упругая модель срыва · жёсткая страховка', calcTitle:'Калькулятор срыва',
+    calcLead:'Выберите карабин и условия срыва. Калькулятор покажет, какая сила придётся на карабин и при какой высоте срыва или каком весе он сломается вдоль спинки, поперёк и с открытой защёлкой.',
+    calcBandLead:'Сколько нужно весить и с какой высоты сорваться, чтобы сломать карабин вдоль спинки, поперёк или с открытой защёлкой.', calcBandCta:'Открыть калькулятор →',
+    cModel:'Карабин', cOnlyClimbing:'В списке только алюминиевые карабины для лазания.', cMass:'Вес сорвавшегося', cLink:'Чем удержан срыв',
+    cDyn:'Динамическая верёвка', cDynHint:'Обычная страховка нижней верёвкой', cSling:'Петля из дайнимы', cSlingHint:'Срыв на самостраховку без верёвки',
+    cImpact:'Ударная сила верёвки по паспорту', cLenDyn:'Длина выпущенной верёвки', cLenSling:'Длина петли', cFall:'Высота срыва',
+    cPos:'Где стоит карабин', cPosTop:'Верхняя точка страховки', cPosTopHint:'Верёвка огибает карабин, нагрузка ×1,66', cPosHarness:'На беседке или в самостраховке', cPosHarnessHint:'Нагрузка ×1',
+    cOnBiner:'На карабин придётся', cFactor:'Фактор срыва', cOnClimber:'на сорвавшегося',
+    dirMajor:'Вдоль спинки', dirMinor:'Поперёк', dirOpen:'Защёлка открыта', ofStrength:(f,s)=>`${f} из ${s} кН`,
+    stOk:r=>`Выдержит, запас ×${r}`, stEdge:'На грани', stBreak:'Сломается',
+    thH:'Сломается при срыве с высоты', thHVal:h=>`от ${h} м`, thHNo:f=>`недостижимо: нужен фактор срыва ${f}, а больше 2 он не бывает`, thHZero:'с любой: хватит рывка без свободного падения',
+    thM:'Сломается при весе', thMVal:m=>`от ${m} кг`, thMNo:'больше 300 кг',
+    hintLabel:'Подсказка', tabFall:'Срыв', tabWear:'Износ',
+    hModel:'Прочность берётся из характеристик выбранной модели: вдоль спинки, поперёк и с открытой защёлкой.',
+    hMass:'Масса лазающего вместе со снаряжением. Чем она больше, тем сильнее рывок при том же факторе срыва.',
+    hLink:'Динамическая верёвка растягивается и гасит рывок. Петля из дайнимы почти не тянется, поэтому даже короткий срыв на неё даёт огромную силу.',
+    hImpact:'Указана на бирке верёвки как impact force. Обычно 7–10 кН: чем меньше, тем мягче верёвка ловит срыв.',
+    hLenDyn:'Сколько верёвки между страхующим и лазающим. Чем её больше, тем сильнее она растягивается и гасит рывок.',
+    hLenSling:'Длина самостраховки от беседки до точки. Стандартные петли — 60 и 120 см.',
+    hFall:'Сколько лазающий пролетает до рывка: примерно удвоенное расстояние до последней точки плюс провис верёвки. Высота, делённая на длину верёвки, — фактор срыва, больше 2 он не бывает.',
+    hPos:'На верхней точке верёвка огибает карабин и тянет его с двух сторон, поэтому сила почти вдвое больше. На беседке или в самостраховке карабин несёт только рывок сорвавшегося.',
+    wearEyebrow:'Оценка по использованию и осмотру', wearTitle:'Калькулятор износа',
+    wearLead:'Укажите, как и где работает карабин и что вы видите при осмотре. Калькулятор оценит нагрузку на рабочую поверхность, подскажет, как часто проверять канавку, и скажет, не пора ли карабин списать.',
+    wearBandLead:'Сколько срывов, спусков и лет выдержал карабин, как часто его проверять и не пора ли списать.', wearBandCta:'Оценить износ →',
+    wModel:'Карабин', wRole:'Где работает карабин', wRoleRope:'По нему бежит верёвка', wRoleRopeSub:'Нижний карабин оттяжки, станция, спусковое', wRoleFixed:'Верёвка по нему не трётся', wRoleFixedSub:'Верхний карабин оттяжки, развеска, беседка',
+    wMonths:'Сколько в работе', wDays:'Дней лазания в месяц', wLowers:'Спусков через карабин за день', wFalls:'Срывов на этот карабин, всего', wHard:'Из них жёстких', wEnv:'Где используется',
+    envNames:{gym:'Скалодром',rock:'Чистые скалы',sand:'Песчаник, пыль, грязь',sea:'Морское побережье'},
+    wEvents:'Особые события', wDrop:'Падал на камень или бетон', wDropSub:'С высоты больше пары метров', wSteel:'Тёрся о стальной трос или цепь', wSteelSub:'Виа феррата, станции с цепями',
+    wInspect:'Результат осмотра', wGroove:'Выработка под верёвкой', grooveNames:{none:'Нет, поверхность ровная',shiny:'Блестящая полоса без ступеньки',deep:'Ноготь цепляется или край острый'},
+    wGate:'Защёлка и муфта', gateNames:{ok:'Закрывается сама и полностью',sticky:'Закрывается медленно или заедает',broken:'Не закрывается до конца или не блокируется'},
+    wBody:'Корпус', bodyNames:{none:'Без повреждений',scratch:'Царапины, сколы анодирования',crack:'Трещины, вмятины или деформация'},
+    wSling:'Оттяжка', wSlingOn:'Карабин стоит на оттяжке', wSlingOnSub:'Проверить и возраст петли', wSlingYears:'Возраст петли',
+    hwModel:'От модели зависит материал: сталь изнашивается намного медленнее алюминия.',
+    hwRole:'Износ сосредоточен там, где по карабину бежит верёвка: нижний карабин оттяжки, карабин на станции верхней страховки, карабин спускового. Верхний карабин оттяжки и развеска верёвкой почти не изнашиваются.',
+    hwMonths:'Сколько месяцев карабин в активном использовании. Для металла это не срок годности, а время, за которое накапливается износ.',
+    hwDays:'Сколько дней в месяц вы в среднем лазаете с этим карабином.',
+    hwLowers:'Сколько раз за день по карабину проходит нагруженная верёвка: спуски на верхней страховке, опускания с маршрута. Это главный источник износа.',
+    hwFalls:'Все срывы, которые пришлись на этот карабин. Обычные срывы почти не изнашивают металл, но верёвка под нагрузкой протирает рабочую поверхность.',
+    hwHard:'Длинные срывы с большим фактором, срывы с нагрузкой поперёк или через ребро скалы. После каждого такого срыва карабин осматривают.',
+    hwEnv:'Песок и пыль в верёвке работают как наждак и в разы ускоряют износ. Морской воздух вызывает коррозию пружины и шарнира.',
+    hwEvents:'Отметьте, если такое было хотя бы раз.',
+    hwInspect:'Осмотрите карабин при хорошем свете. Проведите ногтем по месту, где лежит верёвка, и несколько раз откройте и отпустите защёлку.',
+    hwGroove:'Блестящая полоса без ступеньки — нормальная приработка. Если ноготь цепляется за край или край острый, карабин пора списывать: общепринятый ориентир — канавка глубиной около 1 мм.',
+    hwGate:'Защёлка должна сама закрываться до конца из любого положения, а муфта — надёжно её блокировать.',
+    hwBody:'Ищите трещины, вмятины, изгиб корпуса и смещение защёлки относительно носика.',
+    hwSling:'Отметьте, если карабин стоит на оттяжке: тогда калькулятор проверит и возраст петли.',
+    hwSlingYears:'Считайте от даты производства на бирке петли. Petzl ограничивает срок службы текстиля 10 годами.',
+    monthsFmt:n=>n>=12?`${n} мес. (${fmtN(n/12,1)} г.)`:`${n} мес.`, yearsFmt:n=>`${n} ${plural(n,'год','года','лет')}`, perMonth:n=>`${n} дн.`, perDay:n=>`${n} за день`,
+    wVerdictLabel:'Вывод', vOk:'Можно пользоваться', vEdge:'Нужен внимательный осмотр', vBreak:'Списать',
+    wExposure:'Нагрузка на рабочую поверхность', wExposureVal:n=>`≈ ${n} спусков`, bandNames:{ok:'низкая',edge:'средняя',break:'высокая'}, sevNames:{ok:'норма',edge:'внимание',break:'списать'},
+    wCheckEvery:iv=>`Беглый осмотр — перед каждым использованием. Канавку под верёвкой проверяйте ${iv}.`, ivEach:'тоже перед каждым использованием', ivMonth:'раз в месяц', ivSeason:'раз в сезон и после каждого необычного события',
+    wLife:'У металлических карабинов нет срока годности: Petzl не ограничивает срок службы металла, их списывают по состоянию.',
+    rGrooveDeep:['Канавка с острым краем','Острый край режет верёвку, а сечение корпуса под ним уже меньше расчётного. Общепринятый ориентир для списания — канавка глубиной около 1 мм.'],
+    rGateBroken:o=>['Защёлка не работает',`Без исправной защёлки карабин держит как с открытой защёлкой${o!=null?`, у этой модели — ${o} кН`:''}. Списать.`],
+    rCrack:['Трещины или деформация','Такой карабин списывают сразу, не проверяя на себе.'],
+    rGrooveShiny:['Есть приработка под верёвкой','Пока ступеньки нет, пользоваться можно. Проверяйте канавку чаще и не меняйте местами карабины оттяжки.'],
+    rGateSticky:['Защёлка заедает','Промойте карабин тёплой водой, высушите и смажьте шарнир. Если не помогло — списать.'],
+    rScratch:['Царапины на корпусе','Сами по себе не опасны. Проверьте, что нет заусенцев, которые могут повредить верёвку или петлю.'],
+    rDrop:['Падение на твёрдую поверхность','По данным Black Diamond, после падения алюминиевый карабин обычно сохраняет прочность, если нет вмятин и защёлка работает как раньше. Осмотрите его внимательно.'],
+    rSteel:['Контакт со сталью','Стальной трос или цепь быстро стирают алюминий. Проверьте место контакта на выработку.'],
+    rHard:n=>[`Жёстких срывов: ${n}`,'Один жёсткий срыв вдоль спинки обычно не вредит карабину, но после каждого его осматривают: нет ли деформации, как работает защёлка. Petzl предупреждает, что необычное событие может потребовать списания даже после одного использования.'],
+    rSea:['Морской воздух','Соль вызывает коррозию пружины и шарнира. Промывайте карабин пресной водой и смазывайте шарнир.'],
+    rHigh:['Высокая нагрузка на рабочую поверхность','Канавка растёт быстро, проверяйте её перед каждым использованием.'],
+    rSlingOld:n=>[`Петле ${n} ${plural(n,'год','года','лет')}`,'Petzl ограничивает срок службы текстиля 10 годами с даты производства. Замените петлю или оттяжку целиком; карабин можно оставить, если он в порядке.'],
+    rSlingSoon:n=>[`Петле ${n} ${plural(n,'год','года','лет')}`,'Скоро петлю придётся заменить: предел для текстиля — 10 лет с даты производства.'],
+    rNone:['Признаков износа нет','Пользуйтесь и продолжайте осматривать карабин перед каждым использованием.'],
+    wHowTitle:'Как считается',
+    wHow:['Алюминиевый карабин изнашивается в основном там, где по нему бежит верёвка: на рабочей поверхности появляется канавка. Её глубина и острые края — главный критерий списания.','Нагрузку на эту поверхность калькулятор оценивает в приведённых спусках: дни в месяц × спуски в день × месяцы, плюс половина спуска за каждый срыв. Поправки модели: песок ×4, скальная пыль и морской воздух ×1,5, сталь ×0,15, карабин, о который верёвка не трётся, ×0,1.','Вывод «списать» калькулятор делает только по результатам осмотра: канавка с острым краем, неисправная защёлка, трещины или деформация.','Petzl не ограничивает срок службы металлических изделий, а для текстиля и пластика ставит предел 10 лет с даты производства. Снаряжение, которое выдают другим людям, компетентный специалист должен подробно проверять не реже раза в 12 месяцев.'],
+    wAssume:['Поправки износа — допущения атласа, а не данные производителей. Индекс показывает порядок величины, а не остаток прочности.','Канавку нельзя рассчитать: её нужно увидеть и нащупать. Осмотр всегда важнее цифр.','При любом сомнении карабин списывают: новый стоит дешевле последствий.'],
+    cHowTitle:'Как считается',
+    cHow:['Сорвавшийся пролетает высоту h и растягивает верёвку длиной L. Отношение f = h / L называют фактором срыва. В лазании он не бывает больше 2.','Пиковая сила на сорвавшегося: F = mg + √((mg)² + 2·mg·k·f), где k — жёсткость верёвки. Её получают из ударной силы по паспорту: в тесте UIAA груз 80 кг падает с фактором 1,77.','На верхнюю точку страховки действует почти вдвое больше силы: верёвка огибает карабин, и к рывку сорвавшегося добавляется натяжение со стороны страхующего. В расчёте взят коэффициент 1,66.','Жёсткость петли из дайнимы оценена по опубликованным тестам DMM: груз 80 кг при факторе 1 на петле 60 см дал около 18 кН.'],
+    cAssumeTitle:'Чего модель не учитывает',
+    cAssume:['Страховка считается жёсткой: нет проскальзывания верёвки в устройстве, подброса страхующего, затягивания узлов и трения о рельеф. В реальности сила обычно ниже.','Прочность — минимальное значение производителя для нового карабина. Износ, канавки от верёвки и нагрузка через ребро её снижают.','Это учебная модель для понимания порядка величин, а не инструмент для оценки реальной безопасности.'],
     typesH:'Тип',
     enMinCap:(c,v)=>`Пунктир — минимум EN 12275 для класса ${c}: ${v} кН`,
     lighter:(n,t)=>`Легче, чем ${n} из ${t} моделей атласа`,
@@ -364,8 +521,9 @@ const UI = {
     nose:{keylock:'Keylock, без крючка',clean:'Гладкий, проволока под выступом'},
     noseDesc:{keylock:'Носик и защёлка сопряжены гладким замком. Не цепляется за проушины и петли.',clean:'Проволока заходит под выступ корпуса, крючка снаружи нет.',hook:'Классический носик с выемкой: штифт защёлки заходит в крючок. Дешевле, но цепляется.'},
     noseHook:'С крючком (notch)',
-    lock:{none:'Без блокировки',screw:'Винтовая муфта',twist:'Автомат, 2 действия',magnet:'Магнитная, Magnetron',wirelock:'Автомат Wire-Lock',lever:'Рычажная, 2 действия',quicklink:'Резьбовая гайка'},
+    lock:{none:'Без блокировки',screw:'Винтовая муфта',twist:'Автомат, 2 действия',triact:'Автомат, 3 действия',magnet:'Магнитная, Magnetron',wirelock:'Автомат Wire-Lock',lever:'Рычажная, 2 действия',quicklink:'Резьбовая гайка'},
     lockDesc:{
+      triact:'Муфту нужно сдвинуть и повернуть, только потом открывается защёлка. Трущаяся верёвка её не откроет: стандарт для промальпа и спасработ.',
       none:'Пружинная защёлка без фиксатора. Оттяжки и развеска снаряжения.',
       screw:'Резьбовая муфта закручивается вручную. Надёжна в грязи и на морозе, но её можно забыть закрыть.',
       twist:'Пружинная муфта: повернул и открыл, отпустил — закрылась. Трущаяся верёвка может её провернуть.',
@@ -394,7 +552,82 @@ const UI = {
     specsLead:'Nine characteristics every carabiner has. Each page explains how it is measured and what it changes in real use.',
     home:'Home', where:'Where it’s used', pros:'Pros', cons:'Cons', rules:'How to use it right',
     modelsOfType:'Popular models of this type', colModel:'Model', specsH:'Specifications',
-    whatMeans:'what it means', useH:'Where and how it’s used', similar:'Similar models', source:'Data source',
+    whatMeans:'what it means', useH:'Where and how it’s used', similar:'Similar models', source:'Manufacturer page',
+    noSrc:'the manufacturer no longer has a page for this model', noticeTitle:'Recall for inspection', noticeLink:'UIAA notice',
+    navCalc:'Calculators', navCalcShort:'Calc', navSpecsShort:'Specs', kg:'kg', m:'m',
+    calcEyebrow:'Elastic fall model · static belay', calcTitle:'Fall calculator',
+    calcLead:'Pick a carabiner and the fall conditions. The calculator shows the force the carabiner takes, and at what fall height or body weight it breaks along the spine, across, or with the gate open.',
+    calcBandLead:'How heavy you need to be, and how far you need to fall, to break a carabiner along the spine, across, or with the gate open.', calcBandCta:'Open the calculator →',
+    cModel:'Carabiner', cOnlyClimbing:'Only aluminium climbing carabiners are listed.', cMass:'Climber’s weight', cLink:'What holds the fall',
+    cDyn:'Dynamic rope', cDynHint:'Ordinary lead belay', cSling:'Dyneema sling', cSlingHint:'Falling onto a tether with no rope',
+    cImpact:'Rope impact force rating', cLenDyn:'Rope paid out', cLenSling:'Sling length', cFall:'Fall height',
+    cPos:'Where the carabiner sits', cPosTop:'Top runner', cPosTopHint:'The rope bends over it, load ×1.66', cPosHarness:'On the harness or tether', cPosHarnessHint:'Load ×1',
+    cOnBiner:'Force on the carabiner', cFactor:'Fall factor', cOnClimber:'on the climber',
+    dirMajor:'Along the spine', dirMinor:'Across', dirOpen:'Gate open', ofStrength:(f,s)=>`${f} of ${s} kN`,
+    stOk:r=>`Holds, ×${r} margin`, stEdge:'Borderline', stBreak:'Breaks',
+    thH:'Breaks from a fall height of', thHVal:h=>`${h} m or more`, thHNo:f=>`unreachable: needs fall factor ${f}, and it never exceeds 2`, thHZero:'any: a jolt with no free fall is enough',
+    thM:'Breaks at a body weight of', thMVal:m=>`${m} kg or more`, thMNo:'over 300 kg',
+    hintLabel:'Hint', tabFall:'Fall', tabWear:'Wear',
+    hModel:'Strength comes from the selected model’s specs: along the spine, across and with the gate open.',
+    hMass:'The climber’s weight with gear. The heavier the climber, the harder the jolt at the same fall factor.',
+    hLink:'A dynamic rope stretches and absorbs the jolt. A Dyneema sling barely stretches, so even a short fall onto it produces a huge force.',
+    hImpact:'Printed on the rope label as impact force. Usually 7–10 kN: the lower it is, the softer the rope catches.',
+    hLenDyn:'How much rope is between belayer and climber. The more rope, the more it stretches and absorbs the jolt.',
+    hLenSling:'Tether length from harness to anchor. Standard slings are 60 and 120 cm.',
+    hFall:'How far the climber drops before the rope catches: roughly twice the distance to the last runner plus slack. Height divided by rope length is the fall factor, and it never exceeds 2.',
+    hPos:'At the top runner the rope bends over the carabiner and pulls from both sides, so the force is almost double. On the harness or a tether the carabiner carries only the climber’s jolt.',
+    wearEyebrow:'Estimate from use and inspection', wearTitle:'Wear calculator',
+    wearLead:'Describe how and where the carabiner works and what you see on inspection. The calculator estimates the load on the rope-bearing surface, suggests how often to check the groove and tells you whether it is time to retire it.',
+    wearBandLead:'How many falls, lowers and years a carabiner has seen, how often to check it and whether to retire it.', wearBandCta:'Check wear →',
+    wModel:'Carabiner', wRole:'Where the carabiner works', wRoleRope:'The rope runs through it', wRoleRopeSub:'Rope end of a quickdraw, anchor, descender', wRoleFixed:'The rope doesn’t rub it', wRoleFixedSub:'Bolt end of a quickdraw, racking, harness',
+    wMonths:'Time in use', wDays:'Climbing days per month', wLowers:'Lowers through it per day', wFalls:'Falls on this carabiner, total', wHard:'Of which hard falls', wEnv:'Where it’s used',
+    envNames:{gym:'Climbing gym',rock:'Clean rock',sand:'Sandstone, dust, mud',sea:'Sea cliffs'},
+    wEvents:'Special events', wDrop:'Dropped onto rock or concrete', wDropSub:'From more than a couple of metres', wSteel:'Rubbed against steel cable or chain', wSteelSub:'Via ferrata, chained anchors',
+    wInspect:'Inspection result', wGroove:'Wear under the rope', grooveNames:{none:'None, the surface is smooth',shiny:'A shiny band with no step',deep:'A fingernail catches or the edge is sharp'},
+    wGate:'Gate and lock', gateNames:{ok:'Closes fully on its own',sticky:'Closes slowly or sticks',broken:'Doesn’t close fully or lock'},
+    wBody:'Body', bodyNames:{none:'No damage',scratch:'Scratches, chipped anodising',crack:'Cracks, dents or deformation'},
+    wSling:'Quickdraw', wSlingOn:'The carabiner is on a quickdraw', wSlingOnSub:'Also check the sling’s age', wSlingYears:'Sling age',
+    hwModel:'The model sets the material: steel wears far slower than aluminium.',
+    hwRole:'Wear concentrates where the rope runs: the rope end of a quickdraw, a top-rope anchor carabiner, a descender carabiner. The bolt end of a quickdraw and racking carabiners barely wear from the rope.',
+    hwMonths:'How many months the carabiner has been in active use. For metal this isn’t an expiry date, just the time over which wear builds up.',
+    hwDays:'How many days a month you climb with this carabiner on average.',
+    hwLowers:'How many times a day a loaded rope runs through it: top-rope lowers, lowering off routes. This is the main source of wear.',
+    hwFalls:'All the falls this carabiner has caught. Ordinary falls hardly wear the metal, but the loaded rope does rub the bearing surface.',
+    hwHard:'Long falls with a high fall factor, falls loading it across or over a rock edge. Inspect the carabiner after each one.',
+    hwEnv:'Sand and grit in the rope act like sandpaper and speed up wear many times. Sea air corrodes the spring and hinge.',
+    hwEvents:'Tick if it happened even once.',
+    hwInspect:'Inspect the carabiner in good light. Run a fingernail over the spot where the rope sits and open and release the gate several times.',
+    hwGroove:'A shiny band with no step is normal bedding-in. If a fingernail catches on an edge or the edge is sharp, it is time to retire it: the common benchmark is a groove about 1 mm deep.',
+    hwGate:'The gate must close fully on its own from any position, and the lock must hold it securely.',
+    hwBody:'Look for cracks, dents, a bent body and the gate sitting out of line with the nose.',
+    hwSling:'Tick if the carabiner is on a quickdraw so the calculator also checks the sling’s age.',
+    hwSlingYears:'Count from the manufacturing date on the sling label. Petzl limits textile lifetime to 10 years.',
+    monthsFmt:n=>n>=12?`${n} mo (${fmtN(n/12,1)} yr)`:`${n} mo`, yearsFmt:n=>`${n} ${n===1?'year':'years'}`, perMonth:n=>`${n} days`, perDay:n=>`${n} a day`,
+    wVerdictLabel:'Verdict', vOk:'Fine to use', vEdge:'Needs a close inspection', vBreak:'Retire it',
+    wExposure:'Load on the rope-bearing surface', wExposureVal:n=>`≈ ${n} lowers`, bandNames:{ok:'low',edge:'medium',break:'high'}, sevNames:{ok:'normal',edge:'watch',break:'retire'},
+    wCheckEvery:iv=>`Quick check before every use. Check the groove under the rope ${iv}.`, ivEach:'before every use as well', ivMonth:'once a month', ivSeason:'once a season and after any unusual event',
+    wLife:'Metal carabiners have no expiry date: Petzl sets no lifetime limit for metal, so they are retired on condition.',
+    rGrooveDeep:['Groove with a sharp edge','A sharp edge cuts the rope, and the body under it is already thinner than designed. The common retirement benchmark is a groove about 1 mm deep.'],
+    rGateBroken:o=>['The gate doesn’t work',`Without a working gate the carabiner holds only its gate-open strength${o!=null?`, ${o} kN for this model`:''}. Retire it.`],
+    rCrack:['Cracks or deformation','Retire it at once; never test it on yourself.'],
+    rGrooveShiny:['Bedding-in under the rope','While there is no step, it is fine to use. Check the groove more often and never swap the carabiners on a quickdraw.'],
+    rGateSticky:['The gate sticks','Rinse in warm water, dry and oil the hinge. If that doesn’t help, retire it.'],
+    rScratch:['Scratches on the body','Harmless on their own. Check for burrs that could damage the rope or sling.'],
+    rDrop:['Dropped onto a hard surface','According to Black Diamond, a dropped aluminium carabiner usually keeps its strength if there are no dents and the gate works as before. Inspect it closely.'],
+    rSteel:['Contact with steel','Steel cable or chain wears aluminium away quickly. Check the contact point for wear.'],
+    rHard:n=>[`Hard falls: ${n}`,'A single hard fall along the spine rarely harms a carabiner, but inspect it after each one for deformation and gate action. Petzl warns that an unusual event can mean retiring gear after a single use.'],
+    rSea:['Sea air','Salt corrodes the spring and hinge. Rinse the carabiner in fresh water and oil the hinge.'],
+    rHigh:['High load on the bearing surface','The groove grows fast; check it before every use.'],
+    rSlingOld:n=>[`The sling is ${n} ${n===1?'year':'years'} old`,'Petzl limits textile lifetime to 10 years from manufacture. Replace the sling or the whole quickdraw; the carabiner can stay if it is in good shape.'],
+    rSlingSoon:n=>[`The sling is ${n} ${n===1?'year':'years'} old`,'The sling will need replacing soon: the textile limit is 10 years from manufacture.'],
+    rNone:['No signs of wear','Keep using it and keep inspecting it before every use.'],
+    wHowTitle:'How it’s calculated',
+    wHow:['An aluminium carabiner wears mainly where the rope runs over it: a groove forms on the bearing surface. Its depth and any sharp edges are the main retirement criteria.','The calculator estimates the load on that surface in equivalent lowers: days per month × lowers per day × months, plus half a lower per fall. Model multipliers: sand ×4, rock dust and sea air ×1.5, steel ×0.15, a carabiner the rope doesn’t rub ×0.1.','The calculator only says “retire” based on inspection: a sharp-edged groove, a faulty gate, cracks or deformation.','Petzl sets no lifetime limit for metal products and a 10-year limit from manufacture for textiles and plastics. Gear issued to other people must be thoroughly inspected by a competent person at least every 12 months.'],
+    wAssume:['The wear multipliers are the atlas’s assumptions, not manufacturer data. The index shows orders of magnitude, not remaining strength.','A groove can’t be calculated; it has to be seen and felt. Inspection always beats numbers.','When in doubt, retire it: a new carabiner costs less than the consequences.'],
+    cHowTitle:'How it’s calculated',
+    cHow:['The climber falls a height h and stretches a rope of length L. The ratio f = h / L is the fall factor. In climbing it never exceeds 2.','Peak force on the climber: F = mg + √((mg)² + 2·mg·k·f), where k is the rope stiffness. It is derived from the rated impact force: the UIAA test drops 80 kg at a fall factor of 1.77.','The top runner takes almost twice that: the rope bends over the carabiner, so the belayer-side tension adds to the climber’s pull. The calculation uses a factor of 1.66.','Dyneema sling stiffness is estimated from DMM’s published drop tests: 80 kg at fall factor 1 on a 60 cm sling gave about 18 kN.'],
+    cAssumeTitle:'What the model leaves out',
+    cAssume:['The belay is treated as static: no rope slip in the device, no belayer lift, no knot tightening, no rock friction. Real forces are usually lower.','Strength is the manufacturer’s minimum for a new carabiner. Wear, rope grooves and loading over an edge reduce it.','This is a teaching model for orders of magnitude, not a tool for judging real-world safety.'],
     typesH:'Type',
     enMinCap:(c,v)=>`Dashed line: EN 12275 class ${c} minimum, ${v} kN`,
     lighter:(n,t)=>`Lighter than ${n} of ${t} models in the atlas`,
@@ -416,8 +649,9 @@ const UI = {
     nose:{keylock:'Keylock, no hook',clean:'Clean, hooded wire'},
     noseDesc:{keylock:'Nose and gate mate in a smooth joint. Doesn’t snag on hangers or slings.',clean:'The wire tucks under a hood on the body, so there is no exposed hook.',hook:'Classic notched nose: the gate pin drops into a hook. Cheaper, but it snags.'},
     noseHook:'Notched (hook)',
-    lock:{none:'Non-locking',screw:'Screwgate',twist:'Auto, two-stage',magnet:'Magnetic, Magnetron',wirelock:'Auto Wire-Lock',lever:'Lever, two-stage',quicklink:'Threaded sleeve'},
+    lock:{none:'Non-locking',screw:'Screwgate',twist:'Auto, two-stage',triact:'Auto, three-stage',magnet:'Magnetic, Magnetron',wirelock:'Auto Wire-Lock',lever:'Lever, two-stage',quicklink:'Threaded sleeve'},
     lockDesc:{
+      triact:'Slide and twist the sleeve before the gate opens. A running rope can’t open it, which makes it the standard for rope access and rescue.',
       none:'A sprung gate with no lock. Quickdraws and racking gear.',
       screw:'A threaded sleeve you turn by hand. Reliable in mud and frost, but easy to forget.',
       twist:'A sprung sleeve: twist to open, let go to lock. A running rope can twist it open.',
@@ -449,7 +683,7 @@ const GROUPS = [
   {id:'shape',name:{ru:'Форма корпуса',en:'Body shape'},lead:{ru:'Форма решает, куда уходит нагрузка и что удобно держать в карабине.',en:'Shape decides where the load goes and what the carabiner holds well.'}},
   {id:'gate',name:{ru:'Тип защёлки',en:'Gate type'},lead:{ru:'Защёлка определяет, как быстро встёгивается верёвка и насколько карабин устойчив к случайному открытию.',en:'The gate decides how fast the rope clips in and how well the carabiner resists opening by accident.'}},
   {id:'lock',name:{ru:'Блокировка',en:'Locking'},lead:{ru:'Муфта или другой фиксатор нужны везде, где карабин не дублирован: страховка, самостраховка, станции.',en:'A locking sleeve or other lock is needed wherever the carabiner isn’t backed up: belaying, tethering, anchors.'}},
-  {id:'special',name:{ru:'Специальные',en:'Specialised'},lead:{ru:'Карабины под конкретные задачи: виа феррата, работа на высоте, постоянные точки. И один тип, которому нельзя доверять.',en:'Connectors for specific jobs: via ferrata, work at height, permanent points. And one type you should never trust.'}}
+  {id:'special',name:{ru:'Специальные',en:'Specialised'},lead:{ru:'Карабины под конкретные задачи: виа феррата, работа на высоте, полиспасты, спуск с грузом, постоянные точки. И один тип, которому нельзя доверять.',en:'Connectors for specific jobs: via ferrata, work at height, hauling, descending with a load, permanent points. And one type you should never trust.'}}
 ];
 
 /* ---------- carabiner types ---------- */
@@ -463,7 +697,7 @@ const TYPES = [
  cons:{ru:['При том же весе слабее D-образного','Меньше раскрытие защёлки'],en:['Weaker than a D of the same weight','Smaller gate opening']},
  rules:{ru:['Используйте там, где важна центровка: блоки, жумары, лесенки','Держите нагрузку вдоль длинной оси: на овале её легко сместить к защёлке'],en:['Use it where centring matters: pulleys, ascenders, aiders','Keep the load on the long axis: on an oval it easily drifts towards the gate']}},
 {id:'dee',group:'shape',chip:'EN 12275 · B',vis:{shape:'dee',gate:'straight',lock:'none',color:'#2F6FDB'},
- models:['petzl-amd','mammut-crag-wire','dmm-alpha-sport','petzl-djinn','bd-hotforge','salewa-hot-g3-wire','camp-photon-wire','petzl-smd','bd-oz','wc-helium3','camp-nano22','dmm-phantom','petzl-vulcan'],spheres:['sport','trad','alpine','gym','industrial'],
+ models:['petzl-amd','mammut-crag-wire','dmm-alpha-sport','petzl-djinn','bd-hotforge','salewa-hot-g3-wire','camp-photon-wire','petzl-smd','bd-oz','wc-helium3','camp-nano22','dmm-phantom','petzl-vulcan','dmm-revolver','petzl-freino-z','petzl-freino'],spheres:['sport','trad','alpine','gym','industrial'],
  name:{ru:'D-образный и асимметричный D',en:'D and offset D'},
  short:{ru:'Нагрузка уходит на прочную спинку, отсюда лучшее соотношение веса и прочности. Самая массовая форма в лазании.',en:'Load shifts onto the strong spine, giving the best strength-to-weight ratio. The most common shape in climbing.'},
  long:{ru:'У D-образного карабина ось нагрузки смещена к спинке — самой толстой и прочной части корпуса. Поэтому D прочнее овала при меньшем весе. Асимметричный D (offset D) ещё и сужается к носику: защёлка открывается шире, корпус становится легче. На этой форме построены оттяжки, большинство муфтовых карабинов для станций и почти вся развеска трэд-снаряжения. Базовый класс EN 12275 B требует от 20 кН вдоль спинки и от 7 кН поперёк и с открытой защёлкой.',en:'A D shape pushes the load line towards the spine, the thickest and strongest part of the body, so a D is stronger than an oval at a lower weight. The offset D also narrows towards the nose, which widens the gate opening and trims weight further. Quickdraws, most anchor lockers and almost every trad rack are built on this shape. Basic class B in EN 12275 requires at least 20 kN along the spine and 7 kN cross-loaded or with the gate open.'},
@@ -471,7 +705,7 @@ const TYPES = [
  cons:{ru:['Снаряжение сползает в узкую часть','Поперечная нагрузка снижает прочность в 2–3 раза'],en:['Gear slides into the narrow end','Cross-loading cuts strength two to three times']},
  rules:{ru:['Следите, чтобы нагрузка шла вдоль спинки, а не на защёлку','Узкая часть у спинки рабочая: туда сама уходит нагрузка'],en:['Make sure the load runs along the spine, not onto the gate','The narrow end by the spine is the working end; the load settles there by itself']}},
 {id:'hms',group:'shape',chip:'EN 12275 · H',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#D23B2F'},
- models:['petzl-attache','mammut-smart-hms','bd-rocklock','salewa-ortles-hms-s','kong-hms-classic','camp-nimbus-lock','petzl-william','dmm-belay-master-2','bd-gridlock','bd-rocklock-twist','bd-magnetron','petzl-vertigo','kong-tango'],spheres:['gym','sport','alpine','rescue'],
+ models:['petzl-attache','mammut-smart-hms','bd-rocklock','salewa-ortles-hms-s','kong-hms-classic','camp-nimbus-lock','petzl-william','dmm-belay-master-2','bd-gridlock','bd-rocklock-twist','bd-magnetron','petzl-vertigo','kong-tango','petzl-rollclip-z'],spheres:['gym','sport','alpine','rescue'],
  name:{ru:'Грушевидный (HMS)',en:'Pear (HMS)'},
  short:{ru:'Широкая верхняя часть вмещает узел UIAA и несколько точек сразу. Главный карабин для страховочного устройства и станций.',en:'A wide top holds a Munter hitch and several clips at once. The default carabiner for belay devices and anchors.'},
  long:{ru:'HMS — сокращение от немецкого Halbmastwurfsicherung, страховка полусхватывающим узлом. У нас его называют узлом UIAA, в англоязычной традиции — Munter hitch. Под этот узел и сделан широкий симметричный верх: верёвка переворачивается в нём при смене направления и не заклинивает. Грушевидные карабины почти всегда муфтовые, крупные и с большим раскрытием. Класс EN 12275 H требует от 20 кН вдоль, 7 кН поперёк и 6 кН с открытой защёлкой.',en:'HMS stands for the German Halbmastwurfsicherung, belaying with a Munter hitch. The wide, symmetrical top is shaped for that hitch: the rope flips through it when the direction changes and doesn’t jam. Pear carabiners are almost always locking, large and wide-gated. EN 12275 class H requires at least 20 kN major axis, 7 kN minor axis and 6 kN gate open.'},
@@ -503,7 +737,7 @@ const TYPES = [
  cons:{ru:['Компактный корпус хуже лежит в руке','Проволоку сложнее поймать в перчатках'],en:['Small body is harder to handle','Wire is fiddly in gloves']},
  rules:{ru:['Проверяйте, что проволока не деформирована и плотно садится на носик'],en:['Check that the wire is not bent and seats firmly on the nose']}},
 {id:'screw',group:'lock',chip:'EN 12275 · EN 362',vis:{shape:'dee',gate:'straight',lock:'screw',color:'#E2741B'},
- models:['petzl-attache','salewa-ortles-hms-s','camp-nimbus-lock','petzl-amd','kong-hms-classic','mammut-smart-hms','petzl-ok','bd-rocklock','petzl-william','bd-oval','bd-gridlock','dmm-belay-master-2','kong-ovalone','petzl-oxan','petzl-vulcan'],spheres:['gym','alpine','trad','rescue','industrial','caving'],
+ models:['petzl-attache','salewa-ortles-hms-s','camp-nimbus-lock','petzl-amd','kong-hms-classic','mammut-smart-hms','petzl-ok','bd-rocklock','petzl-william','bd-oval','bd-gridlock','dmm-belay-master-2','kong-ovalone','petzl-oxan','petzl-vulcan','dmm-revolver','petzl-rollclip-z'],spheres:['gym','alpine','trad','rescue','industrial','caving'],
  name:{ru:'Винтовая муфта',en:'Screwgate'},
  short:{ru:'Муфта накручивается на защёлку и блокирует её. Простая, надёжная, работает в грязи и на морозе.',en:'A threaded sleeve screws over the gate to lock it. Simple, reliable, works in mud and frost.'},
  long:{ru:'Самая простая блокировка: резьбовая муфта закрывает носик. Её легко проверить взглядом (у многих моделей открытую муфту выдаёт красная метка), и она не забивается грязью и льдом. Слабое место — человеческий фактор: муфту забывают закрутить, или она раскручивается от трения верёвки. Поэтому проверка муфты — обязательная часть партнёрской проверки перед стартом.',en:'The simplest locking system: a threaded sleeve covers the nose. It is easy to check at a glance (many models show a red band while unlocked) and it doesn’t clog with mud or ice. The weak point is human: people forget to screw it shut, or rope friction unscrews it. Checking the sleeve is a mandatory part of the partner check.'},
@@ -511,7 +745,7 @@ const TYPES = [
  cons:{ru:['Можно забыть закрыть','Может раскрутиться от трения верёвки'],en:['Easy to forget to lock','Rope friction can unscrew it']},
  rules:{ru:['Закручивайте до упора и чуть отпускайте, чтобы муфту не заклинило под нагрузкой','Располагайте карабин так, чтобы муфта закручивалась вниз: вибрация и вес будут её затягивать'],en:['Screw it fully home, then back off slightly so it doesn’t seize under load','Orient it so the sleeve screws downwards: vibration and gravity then tighten it']}},
 {id:'auto',group:'lock',chip:'EN 12275 · EN 362',vis:{shape:'dee',gate:'straight',lock:'twist',color:'#CF3F86'},
- models:['petzl-smd','bd-rocklock-twist','petzl-vertigo','kong-tango'],spheres:['gym','sport','viaferrata','industrial'],
+ models:['petzl-smd','bd-rocklock-twist','petzl-vertigo','kong-tango','petzl-freino-z','petzl-freino'],spheres:['gym','sport','viaferrata','industrial'],
  name:{ru:'Автоматическая муфта',en:'Auto-locking'},
  short:{ru:'Пружинная муфта закрывается сама. Открывается в 2 действия (Twist-Lock) или в 3 (Triact-Lock).',en:'A sprung sleeve locks by itself. Opens in two actions (Twist-Lock) or three (Triact-Lock).'},
  long:{ru:'Пружинная муфта встаёт на место сама, как только защёлка закрылась. Чтобы открыть, муфту поворачивают (два действия) или сдвигают и поворачивают (три действия). Это исключает ошибку «забыл закрутить». Цена — механизм боится песка, грязи и льда, а двухступенчатую муфту может провернуть трущаяся верёвка. Поэтому в промальпе и на спасработах стандартом стали трёхступенчатые муфты.',en:'A sprung sleeve snaps into place as soon as the gate closes. To open it you twist (two actions) or slide and twist (three actions). That rules out the forgot-to-lock error. The trade-off: the mechanism dislikes sand, mud and ice, and a running rope can twist a two-stage sleeve open. That is why rope access and rescue teams standardise on three-stage sleeves.'},
@@ -558,6 +792,23 @@ const TYPES = [
  pros:{ru:['Высокая прочность в разных направлениях','Компактный и недорогой','Подходит для постоянных точек'],en:['Strong in several directions','Compact and inexpensive','Good for permanent points']},
  cons:{ru:['Долго открывать','Бесполезен с незакрученной гайкой'],en:['Slow to open','Useless with the sleeve undone']},
  rules:{ru:['Закручивайте гайку до конца, при необходимости ключом','Не ставьте рапид туда, где нужно часто перестёгиваться'],en:['Screw the sleeve fully shut, with a spanner if needed','Don’t use one where you need to reclip often']}},
+{id:'pulley',group:'special',chip:'EN 362 · EN 12278',vis:{shape:'dee',gate:'straight',lock:'screw',roller:true,color:'#4F8FD6'},
+ models:['dmm-revolver','petzl-rollclip-z'],spheres:['trad','rescue','industrial','alpine'],
+ name:{ru:'Карабин с роликом',en:'Pulley carabiner'},
+ short:{ru:'Встроенный ролик снижает трение верёвки. Полиспасты, подъём грузов и маршруты с сильным изломом верёвки.',en:'A built-in sheave cuts rope friction. Hauling systems, lifting loads and wandering routes.'},
+ long:{ru:'В корпус встроен ролик, по которому идёт верёвка. Трение в разы меньше, чем при перегибе верёвки через обычный карабин: КПД ролика Petzl Rollclip Z — 85%. Это нужно в полиспастах, где каждый процент КПД экономит силы, при подъёме грузов и на маршрутах с сильным изломом, где ролик в точке страховки уменьшает протяжку верёвки. Ролик обычно рассчитан на меньшую нагрузку, чем корпус: у DMM Revolver он держит до 11 кН при прочности карабина 24 кН.',en:'A sheave is built into the body and the rope runs over it. Friction is many times lower than when the rope bends over a plain carabiner: the Petzl Rollclip Z sheave is 85% efficient. That matters in hauling systems, where every percent of efficiency saves effort, when lifting loads, and on wandering routes, where a pulley at a runner cuts rope drag. The sheave is usually rated lower than the body: on the DMM Revolver it holds up to 11 kN while the carabiner is rated 24 kN.'},
+ note:{title:{ru:'А если нужно выровнять разницу в весе?',en:'What about a weight difference between partners?'},text:{ru:'Ролик здесь не поможет, а навредит. Когда лазающий заметно тяжелее страхующего, трение на первой точке нужно не убрать, а добавить, чтобы страхующего меньше подбрасывало. Для этого есть отдельные устройства, например Edelrid Ohm: его встёгивают в первый шлямбур, при срыве он подтормаживает верёвку, а при выдаче почти не мешает.',en:'A pulley won’t help here; it makes things worse. When the climber is much heavier than the belayer, you want more friction at the first bolt, not less, so the belayer is lifted less. Dedicated devices such as the Edelrid Ohm do this: clipped into the first bolt, it brakes the rope in a fall and barely gets in the way when paying out.'}},
+ pros:{ru:['Высокий КПД в полиспасте','Меньше протяжки верёвки на извилистом маршруте','Блок и карабин в одном предмете'],en:['High efficiency in hauling systems','Less rope drag on wandering routes','Pulley and carabiner in one piece']},
+ cons:{ru:['Тяжелее обычного карабина','Ролик держит меньше, чем корпус','Убирает трение, которое помогает страховать партнёра тяжелее себя'],en:['Heavier than a plain carabiner','The sheave is rated lower than the body','Removes friction that helps when belaying a heavier partner']},
+ rules:{ru:['Верёвка должна лежать на ролике, а не на корпусе','Проверяйте диаметр верёвки: Petzl Rollclip Z рассчитан на 7–13 мм','Не ставьте ролик на первую точку, если страхуете партнёра тяжелее себя'],en:['The rope must run on the sheave, not the body','Check the rope diameter: the Petzl Rollclip Z takes 7–13 mm','Don’t put a pulley on the first bolt when belaying a heavier partner']}},
+{id:'spur',group:'special',chip:'EN 362 · EN 12275',vis:{shape:'dee',gate:'straight',lock:'twist',spur:true,color:'#D9822B'},
+ models:['petzl-freino','petzl-freino-z'],spheres:['rescue','industrial'],
+ name:{ru:'Карабин со шпорой',en:'Friction-spur carabiner'},
+ short:{ru:'На корпусе есть изогнутая шпора. Верёвку заводят за неё, чтобы добавить трения при спуске с грузом.',en:'A curved spur on the body. Wrap the rope round it to add friction when descending with a load.'},
+ long:{ru:'Шпора — изогнутый выступ на корпусе. Верёвку после спускового устройства заводят за шпору, и трения становится больше: спуск идёт медленнее, а тяжёлый груз или пострадавшего проще удержать. Включить и выключить шпору можно на ходу, не отстёгивая спусковое устройство. Такие карабины работают в паре с определёнными спусковыми устройствами: Petzl Freino Z с Triact-Lock совместим с I’D и RIG. Классического Freino (M42, Twist-Lock) на сайте Petzl больше нет, его место занял Freino Z.',en:'The spur is a curved horn on the body. The rope coming out of the descender is wrapped round it, adding friction: the descent slows and a heavy load or casualty is easier to hold. The spur can be engaged and released on the move without unclipping the descender. These carabiners pair with specific descenders: the Petzl Freino Z with Triact-Lock works with the I’D and RIG. The classic Freino (M42, Twist-Lock) is no longer on Petzl’s website; the Freino Z replaced it.'},
+ pros:{ru:['Добавочное трение без отдельного тормоза','Включается и выключается на ходу','Карабин и тормоз в одном предмете'],en:['Extra friction without a separate brake','Engages and releases on the move','Carabiner and brake in one piece']},
+ cons:{ru:['Работает только с совместимыми спусковыми устройствами','Тяжелее и дороже обычного муфтового'],en:['Works only with compatible descenders','Heavier and pricier than a plain locker']},
+ rules:{ru:['Проверьте совместимость со своим спусковым устройством по инструкции производителя','Отработайте включение шпоры невысоко над землёй, прежде чем работать на высоте'],en:['Check compatibility with your descender in the manufacturer’s instructions','Practise engaging the spur close to the ground before working at height']}},
 {id:'accessory',group:'special',chip:{ru:'без сертификата',en:'not certified'},vis:{shape:'oval',gate:'straight',lock:'none',color:'#A3ABB0',dashed:true},
  models:[],spheres:[],
  name:{ru:'Аксессуарный (брелок)',en:'Accessory (non-rated)'},
@@ -573,7 +824,7 @@ const TYPES = [
 const MODELS = [
 {id:'petzl-attache',brand:'Petzl',name:'Attache Screw-Lock',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#E3B312'},cls:'H',
  major:21,minor:7,open:6,weight:58,gate:23,material:'al',nose:'keylock',lock:'screw',standard:'EN 12275 H · EN 362 B · UIAA',
- src:'https://www.petzl.com/GB/en/Sport/Carabiners-And-Quickdraws/ATTACHE',
+ src:'https://www.petzl.com/gb/en/sport/products/locking-carabiners/attache/ATTACHE_SPO_a2m68000000XZaUAAW.html',
  summary:{ru:'Компактный и лёгкий HMS. Один из самых популярных карабинов под страховочное устройство.',en:'A compact, light HMS. One of the most common carabiners for a belay device.'},
  uses:[
   {s:'gym',ru:'Крепит страховочное устройство (ATC, Reverso, GriGri) к силовой петле беседки. Перед каждой страховкой — проверка муфты.',en:'Connects a belay device (ATC, Reverso, GriGri) to the harness belay loop. Check the sleeve before every belay.'},
@@ -581,7 +832,7 @@ const MODELS = [
   {s:'trad',ru:'Страховка второго сверху через устройство в режиме автоблокировки, закреплённое на станции.',en:'Belaying the second from above with a guide-mode device clipped to the anchor.'}]},
 {id:'petzl-william',brand:'Petzl',name:'William Screw-Lock',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#E46A2C'},cls:'H',
  major:27,minor:8,open:8,weight:85,gate:28,material:'al',nose:'keylock',lock:'screw',standard:'EN 12275 B/H · EN 362 · NFPA 2500',
- src:'https://www.petzl.com/GB/en/Sport/Carabiners-And-Quickdraws/WILLIAM',
+ src:'https://www.petzl.com/gb/en/sport/products/locking-carabiners/william/WILLIAM_SPO_a2mw0000000QEbCAAW.html',
  summary:{ru:'Большой грушевидный карабин с раскрытием 28 мм. Собирает несколько узлов и петель на одной точке.',en:'A large-capacity pear with a 28 mm gate. Holds several knots and slings at one point.'},
  uses:[
   {s:'alpine',ru:'Центральная точка станции: в William помещаются несколько узлов «стремя», петли и страховочное устройство.',en:'Master point of an anchor: fits several clove hitches, slings and a belay device.'},
@@ -616,15 +867,15 @@ const MODELS = [
   {s:'gym',ru:'Силовая петля беседки идёт в отдельную камеру, верёвка и устройство — в основной объём. Хороший выбор для начинающих.',en:'The harness belay loop sits in its own chamber; rope and device use the main basket. A good pick for new belayers.'},
   {s:'sport',ru:'Страховка нижней верёвкой через ATC или GriGri: устройство раскачивается, а карабин остаётся нагруженным вдоль спинки.',en:'Lead belaying with an ATC or GriGri: the device swings, but the carabiner stays loaded along the spine.'}]},
 {id:'dmm-belay-master-2',brand:'DMM',name:'Belay Master 2',vis:{shape:'hms',gate:'straight',lock:'screw',belay:'clip',color:'#8A949C'},cls:'H',
- major:25,minor:10,open:8,weight:93,gate:20,material:'al',lock:'screw',standard:'EN 12275 H',
- src:'https://www.bogong.com.au/dmm-belay-master-2.html',
+ major:25,minor:10,open:8,weight:93,gate:19,material:'al',lock:'screw',standard:'EN 12275 B/H · EN 362 B · UIAA',
+ src:'https://dmmwales.com/products/belay-master-2',
  summary:{ru:'HMS с пластиковой клипсой: она защёлкивается только при закрытой муфте и фиксирует карабин в беседке.',en:'An HMS with a plastic clip that only closes over a locked sleeve and holds the carabiner in position.'},
  uses:[
   {s:'gym',ru:'Клипса работает как визуальная проверка: закрыта — значит, муфта закручена. Удобно для партнёрской проверки.',en:'The clip doubles as a visual check: if it’s closed, the sleeve is locked. Handy for partner checks.'},
   {s:'alpine',ru:'Страховка с беседки на мультипитчах, где поперечную нагрузку нужно исключить.',en:'Belaying off the harness on multi-pitch routes where cross-loading must be ruled out.'}]},
 {id:'petzl-amd',brand:'Petzl',name:'Am’D Screw-Lock',vis:{shape:'dee',gate:'straight',lock:'screw',color:'#F08A24'},cls:'B',
  major:27,minor:8,open:7,weight:70,gate:25,material:'al',nose:'keylock',lock:'screw',standard:'EN 12275 · EN 362',
- src:'https://www.petzl.com/US/en/Professional/Connectors/Am-D',
+ src:'https://www.petzl.com/us/en/professional/products/aluminum-carabiners/amd/Am-D-PRO_PRO_a2mw0000000QDp0AAG.html',
  summary:{ru:'Асимметричный D-образный муфтовый карабин на 27 кН. Универсал для станций и снаряжения.',en:'An asymmetric D screwgate rated 27 kN. An all-rounder for anchors and gear.'},
  uses:[
   {s:'alpine',ru:'Встёгивание в станцию и самостраховка: D-форма держит нагрузку на прочной спинке.',en:'Clipping into anchors and tethering: the D shape keeps the load on the strong spine.'},
@@ -632,14 +883,14 @@ const MODELS = [
   {s:'rescue',ru:'Крепление блоков и зажимов в полиспасте, где нужен запас прочности 27 кН.',en:'Attaching pulleys and rope grabs in haul systems where a 27 kN margin helps.'}]},
 {id:'petzl-smd',brand:'Petzl',name:'Sm’D Twist-Lock',vis:{shape:'dee',gate:'straight',lock:'twist',color:'#2B9C9C'},cls:'B',
  major:23,minor:8,open:7,weight:51,gate:20,material:'al',nose:'keylock',lock:'twist',standard:'EN 12275',
- src:'https://www.petzl.com/GB/en/Operators/Carabiners-And-Quickdraws/Sm-D',
+ src:'https://www.petzl.com/gb/en/operators/products/locking-carabiners/smd/Sm-D-OPE_OPE_a2m1r000002vBaSAAU.html',
  summary:{ru:'Компактный лёгкий D с автоматической муфтой. Часто идёт в паре со страховочными устройствами.',en:'A compact, light auto-locking D. Often paired with belay devices.'},
  uses:[
   {s:'gym',ru:'Крепление страховочного устройства к беседке: муфта сама встаёт на место после каждой пристёжки.',en:'Belay device to harness: the sleeve relocks itself after every clip-in.'},
   {s:'sport',ru:'Лёгкий запасной муфтовый на поясе для самостраховки на станции, пока перестёгиваешь верёвку.',en:'A light spare locker on the harness for tethering to the anchor while you rethread the rope.'}]},
 {id:'petzl-ok',brand:'Petzl',name:'OK Screw-Lock',vis:{shape:'oval',gate:'straight',lock:'screw',color:'#5C9E3F'},cls:null,
  major:25,minor:8,open:7,weight:70,gate:22,material:'al',nose:'keylock',lock:'screw',standard:'EN 12275 · EN 362 · UIAA',
- src:'https://www.petzl.com/GB/en/Sport/Carabiners-And-Quickdraws/OK',
+ src:'https://www.petzl.com/gb/en/sport/products/locking-carabiners/ok/OK_SPO_a2mw0000000BxXHAA0.html',
  summary:{ru:'Овальный муфтовый карабин на 25 кН. Эталон для блоков, зажимов и систем подъёма.',en:'A 25 kN oval screwgate. The reference for pulleys, rope clamps and hauling.'},
  uses:[
   {s:'rescue',ru:'Подвес блока-ролика: овал держит блок по центру, и щёчки блока не перекашиваются.',en:'Hanging a pulley: the oval keeps it centred so the side plates don’t twist.'},
@@ -653,89 +904,89 @@ const MODELS = [
   {s:'rescue',ru:'Сборка полиспастов с блоками-роликами и зажимами.',en:'Building mechanical-advantage systems with pulleys and rope grabs.'}]},
 {id:'petzl-oxan',brand:'Petzl',name:'Oxan Screw-Lock',vis:{shape:'oval',gate:'straight',lock:'screw',color:'#98A2A8'},cls:null,
  major:38,minor:16,open:15,weight:185,gate:22,material:'steel',lock:'screw',standard:'EN 362 · ANSI Z359.12 · NFPA 2500',
- src:'https://www.petzl.com/GB/en/Professional/Connectors/OXAN',
+ src:'https://www.petzl.com/gb/en/professional/products/steel-carabiners/oxan/OXAN_PRO_a2mw0000000BtvzAAC.html',
  summary:{ru:'Стальной овал на 38 кН для работы с металлическими анкерами и тросами.',en:'A 38 kN steel oval for metal anchors and cables.'},
  uses:[
   {s:'industrial',ru:'Подключение к стальным анкерам и тросовым линиям: сталь не стирается о металл, как алюминий.',en:'Connecting to steel anchors and cable lifelines: steel stands up to metal-on-metal wear far better than aluminium.'},
   {s:'rescue',ru:'Крепление блоков в спасательных полиспастах с запасом прочности под двоих.',en:'Rigging pulleys in rescue haul systems with margin for a two-person load.'}]},
 {id:'petzl-vulcan',brand:'Petzl',name:'Vulcan Screw-Lock',vis:{shape:'dee',gate:'straight',lock:'screw',color:'#8A949B'},cls:null,
  major:45,minor:16,open:18,weight:235,gate:29,material:'steel',lock:'screw',standard:'EN 362 · NFPA 2500',
- src:'https://www.petzl.com/INT/en/Professional/Connectors/VULCAN',
+ src:'https://www.petzl.com/int/en/professional/products/steel-carabiners/vulcan/VULCAN_PRO_a2mw0000001TdSCAA0.html',
  summary:{ru:'Крупный асимметричный стальной карабин: 45 кН и раскрытие 29 мм.',en:'A large asymmetric steel carabiner: 45 kN and a 29 mm gate.'},
  uses:[
   {s:'industrial',ru:'Подключение к толстым балкам, трубам и широким анкерам, куда не встаёт обычный карабин.',en:'Clipping thick beams, pipes and wide anchors that a standard carabiner won’t fit.'},
   {s:'rescue',ru:'Главная точка спасательной системы, где сходятся несколько верёвок и нагрузка двух человек.',en:'Main point of a rescue system where several ropes meet under a two-person load.'}]},
 {id:'petzl-djinn',brand:'Petzl',name:'Djinn',vis:{shape:'dee',gate:'bent',lock:'none',color:'#D7263D'},cls:'B',
  major:23,minor:8,open:9,weight:44,gate:24,gateNote:{ru:'24 мм с прямой защёлкой, 27 мм с изогнутой',en:'24 mm straight gate, 27 mm bent gate'},material:'al',nose:'keylock',lock:'none',standard:'EN 12275 B · UIAA',
- src:'https://www.petzl.com/US/en/Operators/Carabiners-And-Quickdraws/DJINN',
+ src:'https://www.petzl.com/us/en/operators/products/non-locking-carabiners/djinn/DJINN-OPE_OPE_a2m68000000PBHXAA4.html',
  summary:{ru:'Асимметричный D для оттяжек. Есть с прямой защёлкой (к шлямбуру) и с изогнутой (к верёвке).',en:'An offset D for quickdraws, made with a straight gate for the bolt and a bent gate for the rope.'},
  uses:[
   {s:'sport',ru:'Оттяжки для спортивных маршрутов (Djinn Axess): прямая защёлка встёгивается в шлямбур, изогнутая принимает верёвку.',en:'Sport quickdraws (Djinn Axess): the straight gate clips the bolt, the bent gate takes the rope.'},
   {s:'gym',ru:'Оттяжки на скалодроме: носик Keylock не цепляется за проушину, когда оттяжку снимают.',en:'Gym quickdraws: the keylock nose doesn’t snag the hanger when the draw is cleaned.'}]},
 {id:'bd-hotforge',brand:'Black Diamond',name:'HotForge Straight',vis:{shape:'dee',gate:'straight',lock:'none',color:'#2F6FDB'},cls:'B',
- major:24,minor:8,open:8,weight:45,gate:22,material:'al',lock:'none',standard:'EN 12275',
- src:'https://mountainhighoutfitters.com/products/hotforge-straight-carabiner',
+ major:24,minor:8,open:8,weight:45,gate:20,material:'al',lock:'none',standard:'EN 12275',
+ src:'https://blackdiamondequipment.com/products/hotforge-straight-gate-carabiner',
  summary:{ru:'Горячештампованный асимметричный D с прямой защёлкой. Верхний карабин оттяжки.',en:'A hot-forged offset D with a straight gate. The bolt end of a quickdraw.'},
  uses:[
   {s:'sport',ru:'Карабин для шлямбура в оттяжке: прямая защёлка реже выстёгивается из проушины.',en:'Bolt-end carabiner on a quickdraw: the straight gate is less likely to unclip from the hanger.'},
   {s:'trad',ru:'Развеска закладок и френдов на беседке: защёлку удобно открывать даже в перчатках.',en:'Racking nuts and cams on the harness: the gate is easy to open even in gloves.'}]},
 {id:'dmm-alpha-sport',brand:'DMM',name:'Alpha Sport Bent',vis:{shape:'dee',gate:'bent',lock:'none',color:'#8DB82F'},cls:'B',
- major:24,minor:8,open:9,weight:47,gate:25,material:'al',nose:'keylock',lock:'none',standard:'EN 12275 B',
- src:'https://k2.com.au/products/dmm-alpha-sport-bent-gate-carabiner-lime-titanium',
+ major:24,minor:8,open:9,weight:46,gate:25,material:'al',nose:'keylock',lock:'none',standard:'EN 12275 B · UIAA',
+ src:'https://dmmwales.com/products/alpha-sport',
  summary:{ru:'Асимметричный D с изогнутой защёлкой и носиком Keylock: быстрая встёжка верёвки.',en:'An offset D with a bent gate and keylock nose: fast rope clips.'},
  uses:[
   {s:'sport',ru:'Нижний карабин оттяжки: изгиб защёлки направляет верёвку внутрь на трудной встёжке.',en:'Rope end of a quickdraw: the bent gate funnels the rope in on hard clips.'},
   {s:'gym',ru:'Оттяжки на скалодроме, где важна скорость встёжки.',en:'Gym quickdraws where clipping speed matters.'}]},
 {id:'bd-oz',brand:'Black Diamond',name:'Oz',vis:{shape:'dee',gate:'wire',lock:'none',color:'#E0A11B'},cls:'B',
  major:20,minor:7,open:7,weight:28,gate:22,material:'al',nose:'clean',lock:'none',standard:'EN 12275',
- src:'https://weighmyrack.com/Carabiner/Black-Diamond-Oz',
+ src:'https://blackdiamondequipment.com/products/oz-carabiner',
  summary:{ru:'Один из самых лёгких карабинов: 28 г, проволочная защёлка.',en:'One of the lightest carabiners around: 28 g with a wire gate.'},
  uses:[
   {s:'alpine',ru:'Альпинистские оттяжки и петли: на длинных восхождениях на счету каждый грамм.',en:'Alpine draws and slings: every gram counts on long routes.'},
   {s:'trad',ru:'Развеска закладок и френдов: на трэд-маршруте их 20–30, и экономия веса складывается.',en:'Racking nuts and cams: with 20–30 on a trad route, the saving adds up.'}]},
 {id:'camp-nano22',brand:'CAMP',name:'Nano 22',vis:{shape:'dee',gate:'wire',lock:'none',color:'#C73E86'},cls:'B',
  major:21,minor:8,open:9,weight:22,gate:21,material:'al',lock:'none',standard:'EN 12275',
- src:'https://skimo.co/camp-nano-carabiners',
+ src:'https://www.camp.it/d/us/us/outdoor/product/1475',
  summary:{ru:'22 г: один из самых лёгких карабинов с прочностью выше 20 кН.',en:'At 22 g, one of the lightest carabiners rated above 20 kN.'},
  uses:[
   {s:'alpine',ru:'Ски-альпинизм и скоростные восхождения: развеска ледобуров, петель и закладок.',en:'Ski mountaineering and fast alpine: racking ice screws, slings and nuts.'},
   {s:'trad',ru:'Лёгкие альпинистские оттяжки на длинных мультипитчах.',en:'Light alpine draws on long multi-pitch routes.'}]},
 {id:'dmm-phantom',brand:'DMM',name:'Phantom',vis:{shape:'dee',gate:'wire',lock:'none',color:'#3BAA7A'},cls:'B',
- major:21,minor:7,open:8,weight:27,gate:22,material:'al',lock:'none',standard:'EN 12275',
- src:'https://www.cotswoldoutdoor.com/p/dmm-phantom-wire-carabiner-H4SB3B0004.html',
+ major:23,minor:7,open:9,weight:28,gate:21,material:'al',lock:'none',standard:'EN 12275 B · UIAA',
+ src:'https://dmmwales.com/products/phantom',
  summary:{ru:'Маленький проволочный карабин DMM, частый выбор для лёгких оттяжек.',en:'DMM’s small wiregate, a common pick for light quickdraws.'},
  uses:[
   {s:'trad',ru:'Френды и закладки: малый размер экономит место на петлях беседки.',en:'Cams and nuts: the small size saves space on gear loops.'},
   {s:'alpine',ru:'Зимний альпинизм: проволочная защёлка не смерзается, как литая.',en:'Winter climbing: a wire gate won’t freeze shut like a solid one.'}]},
 {id:'wc-helium3',brand:'Wild Country',name:'Helium 3.0',vis:{shape:'dee',gate:'wire',lock:'none',color:'#2A88C8'},cls:'B',
- major:24,minor:7,open:10,weight:38,gate:27,material:'al',nose:'clean',lock:'none',standard:'EN 12275',
- src:'https://www.rei.com/product/182854',
+ major:24,minor:7,open:9,weight:38,gate:27,material:'al',nose:'clean',lock:'none',standard:'EN 12275',
+ src:'https://www.wildcountry.com/helium-3_0-carabiner-40-0000000003',
  summary:{ru:'Полноразмерный проволочный карабин с гладким носиком: 24 кН и раскрытие 27 мм.',en:'A full-size wiregate with a clean nose: 24 kN and a 27 mm gate.'},
  uses:[
   {s:'sport',ru:'Оттяжки для холодных дней и длинных маршрутов: широкое раскрытие и минимум хлёста защёлки.',en:'Quickdraws for cold days and long routes: a wide gate and minimal whiplash.'},
   {s:'trad',ru:'Встёжка верёвки в точки страховки: гладкий носик не цепляется за тросик закладки.',en:'Clipping the rope to protection: the clean nose doesn’t snag nut wires.'}]},
 {id:'petzl-vertigo',brand:'Petzl',name:'Vertigo Wire-Lock',vis:{shape:'hms',gate:'straight',lock:'wirelock',color:'#E8A70C'},cls:'K',
  major:25,minor:10,open:8,weight:95,gate:24,material:'al',nose:'keylock',lock:'wirelock',standard:'EN 12275 K/B · UIAA',
- src:'https://www.petzl.com/GB/en/Sport/Carabiners-and-quickdraws/VERTIGO-WIRE-LOCK',
+ src:'https://www.petzl.com/us/en/sport/products/locking-carabiners/vertigo-wire-lock/VERTIGO-WIRE-LOCK_SPO_a2mTx000000GWC1IAO.html',
  summary:{ru:'Карабин для усов виа феррат с автоматической блокировкой Wire-Lock, класс K.',en:'A via ferrata lanyard carabiner with automatic Wire-Lock locking, class K.'},
  uses:[
   {s:'viaferrata',ru:'Стоит на усах с амортизатором (Scorpio Vertigo). Перестёгивается одной рукой через анкеры троса, форма удобно ложится в ладонь.',en:'Fitted to energy-absorbing lanyards (Scorpio Vertigo). Reclips past cable anchors one-handed, and the shape fits the palm.'}]},
 {id:'kong-tango',brand:'Kong',name:'Tango',vis:{shape:'hms',gate:'straight',lock:'lever',color:'#C8312C'},cls:'K',
- major:33,minor:10,open:15,weight:130,gate:26,material:'al',lock:'lever',standard:'EN 12275 K · EN 362 T · UIAA',
- src:'https://www.oliunid.com/au/kong-tango-carabiner-via-ferrata',
+ major:33,minor:10,open:15,weight:130,gate:26,material:'al',nose:'keylock',lock:'lever',standard:'EN 12275 K · EN 362 T · UIAA',
+ src:'https://www.kong.it/en/product/tango/',
  summary:{ru:'Крупный карабин класса K с рычажной блокировкой двойного действия.',en:'A large class K connector with a two-action lever lock.'},
  uses:[
   {s:'viaferrata',ru:'Ставится на ус виа феррат: ладонь прижимает рычаг и открывает защёлку одним хватом, отпустил — карабин заблокирован.',en:'Fitted to via ferrata lanyards: squeezing the lever opens the gate in one grip; let go and it’s locked.'}]},
 {id:'petzl-go',brand:'Petzl',name:'Go 8 mm',vis:{shape:'link',gate:'none',lock:'quicklink',color:'#9AA4AA'},cls:'Q',
  major:32,minor:10,open:null,weight:95,gate:17,material:'steel',lock:'quicklink',standard:'EN 12275 Q · EN 362 Q',
- src:'https://www.petzl.com/US/en/Operators/Carabiners-And-Quickdraws/GO-8-mm',
+ src:'https://www.petzl.com/us/en/operators/products/quickdraws/go-8-mm/GO-8-mm-OPE_OPE_a2m5I0000005J38QAE.html',
  summary:{ru:'Овальный оцинкованный рапид 8 мм. Вместо защёлки — резьбовая гайка.',en:'An 8 mm galvanised steel oval quick link. A threaded sleeve instead of a gate.'},
  uses:[
   {s:'sport',ru:'Станция спуска на шлямбурах: верёвку продевают в пару рапидов, которые остаются на скале.',en:'Lower-off anchors on bolts: the rope runs through a pair of quick links that stay on the rock.'},
   {s:'caving',ru:'Постоянные соединения в навеске пещер: подвес к анкерам и соединение элементов.',en:'Permanent connections in cave rigging: hanging from anchors and joining components.'}]},
 {id:'petzl-delta',brand:'Petzl',name:'Delta 8 mm',vis:{shape:'delta',gate:'none',lock:'quicklink',color:'#8F999F'},cls:'Q',
  major:27,minor:10,open:null,weight:85,gate:10,material:'steel',lock:'quicklink',standard:'EN 362 Q · EN 12275',
- src:'https://petzl.com/NO/en/Operators/Anchors/DELTA',
+ src:'https://www.petzl.com/no/en/operators/products/quick-links/delta/DELTA-PRO_OPE_a2mw0000000Hes9AAC.html',
  summary:{ru:'Треугольный стальной рапид: держит нагрузку с трёх сторон.',en:'A triangular steel quick link that takes load from three directions.'},
  uses:[
   {s:'caving',ru:'Соединения с нагрузкой с трёх направлений: замыкание обвязок, сбор нескольких петель в одну точку.',en:'Joints loaded from three directions: closing harnesses, gathering several slings into one point.'},
@@ -749,7 +1000,8 @@ const MODELS = [
   {s:'alpine',ru:'Станции на мультипитчах: раскрытие 27,5 мм вмещает несколько узлов и петель.',en:'Multi-pitch anchors: the 27.5 mm gate takes several knots and slings.'}]},
 {id:'mammut-crag-wire',brand:'Mammut',name:'Crag Wire',vis:{shape:'dee',gate:'wire',lock:'none',color:'#E3542B'},cls:'B',
  major:24,minor:9,open:8,weight:43,gate:30,material:'al',lock:'none',standard:'EN 12275',
- src:'https://www.backcountry.com/mammut-crag-wire-gate-carabiner',
+ src:'https://www.mammut.com/us/en/products/2040-02680/crag-wire-10-cm-indicator-6-pack-quickdraws',
+ srcNote:{ru:'Отдельно карабин Crag Wire Mammut больше не продаёт, ссылка ведёт на набор оттяжек с этими карабинами.',en:'Mammut no longer sells the Crag Wire carabiner on its own; the link goes to the quickdraw set built with it.'},
  summary:{ru:'Проволочный карабин Mammut с самым широким раскрытием в атласе: 30 мм.',en:'Mammut’s wiregate with the widest gate in the atlas: 30 mm.'},
  uses:[
   {s:'sport',ru:'Оттяжки Crag Wire: раскрытие 30 мм — самое широкое среди проволочных карабинов атласа, верёвка заходит даже при неточном движении.',en:'Crag Wire quickdraws: the 30 mm gate is the widest of any wiregate in the atlas, so the rope goes in even on a sloppy clip.'},
@@ -762,40 +1014,69 @@ const MODELS = [
   {s:'alpine',ru:'Лёгкие альпинистские оттяжки и развеска ледобуров: 40 г, проволока не смерзается.',en:'Light alpine draws and racking ice screws: 40 g, and the wire won’t freeze shut.'},
   {s:'trad',ru:'Встёжка верёвки в точки страховки на длинных маршрутах.',en:'Clipping the rope to protection on long routes.'}]},
 {id:'salewa-ortles-hms-s',brand:'Salewa',name:'Ortles HMS S',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#2F8F83'},cls:'H',
- major:23,minor:9,open:8,weight:70,gate:null,material:'al',lock:'screw',standard:'EN 12275 · UIAA',
- src:'https://www.oliunid.com/eu/salewa-ortles-hms-s-screw-lock-climbing-carabiner',
+ major:22,minor:9,open:8,weight:70,gate:null,material:'al',lock:'screw',standard:'EN 12275 · UIAA',
+ src:'https://www.salewa.com/ortles-hms-carabiner-s-00-0000072001',
  summary:{ru:'Компактный HMS Salewa из сплава 7075 с винтовой муфтой.',en:'Salewa’s compact 7075-alloy HMS screwgate.'},
  uses:[
   {s:'gym',ru:'Крепление страховочного устройства и страховка узлом UIAA.',en:'Belay device attachment and Munter-hitch belaying.'},
   {s:'alpine',ru:'Самостраховка на станции узлом «стремя»: при весе 70 г удобно носить несколько штук.',en:'Clove-hitching into anchors: at 70 g it’s easy to carry several.'}]},
-{id:'kong-hms-classic',brand:'Kong',name:'HMS Classic Alu Screw',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#3466A8'},cls:'H',
- major:22,minor:8,open:6,weight:88,gate:25,material:'al',lock:'screw',standard:'EN 12275 · EN 362 B',
- src:'https://www.oliunid.com/kong-hms-classic-alu-screw-climbing-carabiner',
+{id:'kong-hms-classic',brand:'Kong',name:'HMS Classic Screw Sleeve',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#3466A8'},cls:'H',
+ major:22,minor:8,open:6,weight:88,gate:25,material:'al',nose:'keylock',lock:'screw',standard:'EN 12275 · EN 362 · UIAA',
+ src:'https://www.kong.it/en/product/hms-classic-screw-sleeve/',
  summary:{ru:'Классический алюминиевый HMS Kong: 22 кН, раскрытие 25 мм.',en:'Kong’s classic aluminium HMS: 22 kN, 25 mm gate.'},
  uses:[
   {s:'gym',ru:'Страховка узлом UIAA и крепление страховочного устройства.',en:'Munter-hitch belaying and belay device attachment.'},
   {s:'industrial',ru:'Соединение элементов в системах для работ на высоте: у карабина есть сертификат EN 362.',en:'Joining components in work-at-height systems: the carabiner is EN 362 certified.'}]},
-{id:'kong-ovalone',brand:'Kong',name:'Ovalone Carbon Screw',vis:{shape:'oval',gate:'straight',lock:'screw',color:'#8E979D'},cls:'B',
- major:40,minor:15,open:8,weight:205,gate:21,material:'steel',lock:'screw',standard:'EN 362 M · EN 12275 B · UIAA',
- src:'https://ukrigging.net/shop/all-items/kong-ovalone-carbon-steel-screw-gate/',
+{id:'kong-ovalone',brand:'Kong',name:'Ovalone Carbon Screw Sleeve',vis:{shape:'oval',gate:'straight',lock:'screw',color:'#8E979D'},cls:null,
+ major:40,minor:15,open:8,weight:205,gate:21,material:'steel',nose:'keylock',lock:'screw',standard:'EN 362 M',
+ src:'https://www.kong.it/en/product/ovalone-carbon-screw-sleeve/',
  summary:{ru:'Стальной овал Kong на 40 кН для промальпа и спасработ.',en:'Kong’s 40 kN steel oval for rope access and rescue.'},
  uses:[
   {s:'industrial',ru:'Подвес блоков и зажимов на стальных анкерах: овал держит блок по центру, а сталь не боится контакта с металлом.',en:'Hanging pulleys and rope clamps on steel anchors: the oval keeps them centred and steel shrugs off metal contact.'},
   {s:'rescue',ru:'Полиспасты и точки подвеса в спасательных системах с запасом прочности 40 кН.',en:'Haul systems and hang points in rescue rigs with a 40 kN margin.'}]},
 {id:'camp-photon-wire',brand:'CAMP',name:'Photon Wire',vis:{shape:'dee',gate:'wire',lock:'none',color:'#8E44AD'},cls:'B',
  major:22,minor:8,open:9,weight:30,gate:26,material:'al',lock:'none',standard:'EN 12275',
- src:'https://www.gearx.com/products/camp-photon-wire-carabiner-c2v4z',
+ src:'https://www.camp.it/d/us/us/outdoor/product/1910',
  summary:{ru:'Полноразмерный проволочный карабин CAMP: 30 г и раскрытие 26 мм.',en:'CAMP’s full-size wiregate: 30 g and a 26 mm gate.'},
  uses:[
   {s:'sport',ru:'Лёгкие оттяжки для спортивных маршрутов: крупный корпус удобно держать, раскрытие 26 мм.',en:'Light sport quickdraws: a large body that’s easy to hold and a 26 mm gate.'},
   {s:'alpine',ru:'Альпинистские оттяжки и петли: крупную защёлку легко поймать в перчатках.',en:'Alpine draws and slings: the large gate is easy to catch in gloves.'}]},
 {id:'camp-nimbus-lock',brand:'CAMP',name:'Nimbus Lock',vis:{shape:'hms',gate:'straight',lock:'screw',color:'#1F8A70'},cls:'H',
  major:21,minor:9,open:6,weight:69,gate:22,material:'al',lock:'screw',standard:'EN 12275 H · EN 362 B',
- src:'https://www.oliunid.com/uk/camp-nimbus-lock-screw-lock-climbing-carabiner',
+ src:'https://www.camp.it/d/us/us/outdoor/product/2282',
+ notice:{url:'https://www.theuiaa.org/recall-for-inspection-nimbus-lock-carabiner/',ru:'C.A.M.P. отозвал Nimbus Lock на проверку: в части карабинов из партий начиная с 10 23 пружина может не возвращать защёлку в закрытое положение. На прочность закрытого карабина это не влияет. Проверьте номер партии на корпусе.',en:'C.A.M.P. has recalled the Nimbus Lock for inspection: on some carabiners from batch 10 23 onwards the spring may fail to close the gate. Closed-gate strength is not affected. Check the batch number on the body.'},
  summary:{ru:'Компактный HMS CAMP с винтовой муфтой: 69 г.',en:'CAMP’s compact HMS screwgate at 69 g.'},
  uses:[
   {s:'gym',ru:'Крепление страховочного устройства к силовой петле беседки.',en:'Connecting a belay device to the harness belay loop.'},
-  {s:'alpine',ru:'Самостраховка и станции, где важен вес: самый лёгкий грушевидный карабин атласа после Petzl Attache.',en:'Tethering and anchors where weight matters: the lightest pear in the atlas after the Petzl Attache.'}]}
+  {s:'alpine',ru:'Самостраховка и станции, где важен вес: самый лёгкий грушевидный карабин атласа после Petzl Attache.',en:'Tethering and anchors where weight matters: the lightest pear in the atlas after the Petzl Attache.'}]},
+{id:'dmm-revolver',brand:'DMM',name:'Revolver Screwgate',vis:{shape:'dee',gate:'straight',lock:'screw',roller:true,color:'#7FB539'},cls:'B',
+ major:24,minor:8,open:8,weight:63,gate:16,material:'al',lock:'screw',standard:'EN 362 · EN 12275 B · UIAA',
+ src:'https://dmmwales.com/products/revolver-locking',
+ summary:{ru:'Муфтовый карабин DMM со встроенным роликом. Ролик держит до 11 кН.',en:'DMM’s screwgate with a built-in pulley wheel rated to 11 kN.'},
+ uses:[
+  {s:'trad',ru:'Маршруты с сильным изломом верёвки: ролик в точке страховки уменьшает протяжку.',en:'Wandering routes: a pulley at a runner cuts rope drag.'},
+  {s:'rescue',ru:'Импровизированный полиспаст при самоспасении: ролик заменяет отдельный блок.',en:'Improvised hauling in self-rescue: the wheel stands in for a separate pulley.'}]},
+{id:'petzl-rollclip-z',brand:'Petzl',name:'Rollclip Z Screw-Lock',vis:{shape:'hms',gate:'straight',lock:'screw',roller:true,color:'#F2A900'},cls:'B',
+ major:20,minor:8,open:7,weight:105,gate:21,material:'al',lock:'screw',standard:'EN 362 · EN 12278 · EN 12275 B',
+ src:'https://www.petzl.com/us/en/professional/products/carabiner-pulleys/rollclip-z/ROLLCLIP-Z_PRO_a2mw0000000C2tsAAC.html',
+ summary:{ru:'Карабин-блок Petzl: ролик 18 мм с КПД 85%, рабочая нагрузка до 4 кН.',en:'Petzl’s pulley carabiner: an 18 mm sheave with 85% efficiency and a 4 kN working load.'},
+ uses:[
+  {s:'rescue',ru:'Полиспасты: ролик с КПД 85% для верёвки 7–13 мм.',en:'Hauling systems: an 85% efficient sheave for 7–13 mm rope.'},
+  {s:'industrial',ru:'Перенаправление верёвки на анкере: защёлка со стороны без ролика, поэтому блок встаёт на точку, не разбирая систему.',en:'Redirecting the rope at an anchor: the gate is on the side without the sheave, so it clips onto a point without dismantling the system.'}]},
+{id:'petzl-freino',brand:'Petzl',name:'Freino Twist-Lock',vis:{shape:'dee',gate:'straight',lock:'twist',spur:true,color:'#D9822B'},cls:null,
+ major:25,minor:10,open:9,weight:85,gate:15,gateNote:{ru:'15 мм основная защёлка, 12 мм защёлка шпоры',en:'15 mm main gate, 12 mm spur gate'},material:'al',lock:'twist',standard:'EN 362 · EN 12275 · UIAA',
+ src:null,
+ summary:{ru:'Классический карабин Petzl со шпорой для дополнительного трения при спуске, артикул M42.',en:'Petzl’s classic friction-spur carabiner for extra friction on descent, reference M42.'},
+ uses:[
+  {s:'rescue',ru:'Спуск с пострадавшим на I’D или RIG: верёвку заводят за шпору, чтобы добавить трения под нагрузкой двоих, не открывая основную защёлку.',en:'Lowering with a casualty on an I’D or RIG: the rope goes round the spur for extra friction under a two-person load, without opening the main gate.'},
+  {s:'industrial',ru:'Регулировка трения на длинных спусках с грузом: шпору включают и выключают на ходу.',en:'Adjusting friction on long descents with a load: the spur is engaged and released on the move.'}]},
+{id:'petzl-freino-z',brand:'Petzl',name:'Freino Z Triact-Lock',vis:{shape:'dee',gate:'straight',lock:'twist',spur:true,color:'#E8A70C'},cls:null,
+ major:23,minor:8,open:8,weight:75,gate:18,gateNote:{ru:'18 мм основная защёлка, 12 мм защёлка шпоры',en:'18 mm main gate, 12 mm spur gate'},material:'al',lock:'triact',standard:'EN 362 · EN 12275 · NFPA 2500',
+ src:'https://www.petzl.com/us/en/professional/products/aluminum-carabiners/freino-z/FREINO-Z-PRO_PRO_a2m1r0000030kR1AAI.html',
+ summary:{ru:'Актуальный карабин Petzl со шпорой и трёхступенчатой муфтой Triact-Lock.',en:'Petzl’s current friction-spur carabiner with a three-stage Triact-Lock sleeve.'},
+ uses:[
+  {s:'industrial',ru:'Добавочное трение для самотормозящих спусков I’D S, I’D L, I’D EVAC и RIG при работе с тяжёлым грузом.',en:'Extra friction for I’D S, I’D L, I’D EVAC and RIG self-braking descenders with heavy loads.'},
+  {s:'rescue',ru:'Спуск с пострадавшим: трение регулируется прямо на верёвке, не отстёгивая спусковое устройство.',en:'Lowering with a casualty: friction is adjusted on the rope without unclipping the descender.'}]}
 ];
 const MBY = Object.fromEntries(MODELS.map(m=>[m.id,m]));
 const BRANDS = [...new Set(MODELS.map(m=>m.brand))].sort((a,b)=>a.localeCompare(b));
@@ -865,11 +1146,14 @@ const STANDARDS = [
  {k:'UIAA',label:'UIAA 121',d:{ru:'Стандарт Международной федерации альпинизма, построен на EN 12275 с дополнительными требованиями.',en:'The International Climbing and Mountaineering Federation’s standard, built on EN 12275 with extra requirements.'}},
  {k:'EN 362',d:{ru:'Соединительные элементы средств защиты от падения с высоты: промальп и работы на высоте.',en:'Connectors for personal fall-protection equipment: rope access and work at height.'}},
  {k:'ANSI Z359.12',d:{ru:'Американский промышленный стандарт. Защёлка должна выдерживать 16 кН (3600 lbf) фронтальной и боковой нагрузки.',en:'US industrial standard. The gate must withstand 16 kN (3,600 lbf) of face and side load.'}},
- {k:'NFPA 2500',d:{ru:'Американский стандарт для спасательного снаряжения (ранее NFPA 1983).',en:'US standard for rescue equipment (formerly NFPA 1983).'}}
+ {k:'NFPA 2500',d:{ru:'Американский стандарт для спасательного снаряжения (ранее NFPA 1983).',en:'US standard for rescue equipment (formerly NFPA 1983).'}},
+ {k:'EN 12278',d:{ru:'Европейский стандарт роликов (блоков) для альпинистского снаряжения.',en:'European standard for mountaineering pulleys.'}}
 ];
 
 /* ---------- state ---------- */
-const state = {lang:'ru', sphere:'all', brand:'all', q:'', route:''};
+const state = {lang:'ru', sphere:'all', brand:'all', q:'', route:'',
+  calc:{model:'petzl-djinn', mass:80, link:'dyn', impact:8.8, len:10, fall:4, pos:'top'},
+  wear:{model:'dmm-alpha-sport', role:'rope', months:24, days:6, lowers:3, falls:60, hard:1, env:'rock', drop:false, steel:false, groove:'shiny', gate:'ok', body:'scratch', sling:true, slingYears:4}};
 try{const s=localStorage.getItem('carabiner-atlas-lang');if(s==='ru'||s==='en')state.lang=s;}catch(e){}
 const L = o => (o && typeof o==='object' && 'ru' in o) ? o[state.lang] : o;
 const T = k => UI[state.lang][k];
@@ -898,6 +1182,8 @@ function biner(v, o={}){
   if(v.belay==='gate') s += `<path d="M37 136 Q60 118 88 128" fill="none" stroke="#6F797F" stroke-width="3" stroke-linecap="round"/>`;
   s += `<path d="${S.d}" fill="none" stroke="url(#${id})" stroke-width="${bw}" stroke-linecap="round" stroke-linejoin="round"${dash}/>`;
   s += `<path d="${S.d}" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(-2 -2)"${dash}/>`;
+  if(v.roller){const [rx0,ry0]={dee:[50,151],hms:[62,158]}[v.shape]||[60,156];s += `<circle cx="${rx0}" cy="${ry0}" r="10" fill="#C9D0D4" stroke="#6F797F" stroke-width="2"/><circle cx="${rx0}" cy="${ry0}" r="3" fill="#6F797F"/>`;}
+  if(v.spur) s += `<path d="M30 100 C12 96 6 114 14 128" fill="none" stroke="url(#${id})" stroke-width="8" stroke-linecap="round"/>`;
   if(o.stamp && S.st){const [x,y,a]=S.st;s += `<text transform="translate(${x} ${y}) rotate(${a})" font-family="JetBrains Mono, ui-monospace, monospace" font-size="5.6" font-weight="700" letter-spacing=".3" fill="#fff" fill-opacity=".85" dominant-baseline="central">${esc(o.stamp)}</text>`;}
   let g = '';
   if(v.gate==='straight') g += `<path d="M${hx} ${hy} L${nx} ${ny}" stroke="#AEB6BB" stroke-width="6" stroke-linecap="round"/><path d="M${pt(.05,-1.3)} L${pt(.95,-1.3)}" stroke="#fff" stroke-opacity=".65" stroke-width="1.3" stroke-linecap="round"/>`;
@@ -1000,6 +1286,12 @@ function viewHome(){
   <section class="specband" id="specs-home">
     <div class="ghead"><div><p class="eyebrow">${SPECS.length} · ${T('kNnote')}</p><h2>${T('specsTitle')}</h2></div><p>${T('specsLead')}</p></div>
     ${specCards()}
+  </section>
+  <section class="specband">
+    <div class="ctagrid">
+      <a class="calccta" href="#calc"><div><p class="eyebrow">${T('navCalc')}</p><h2>${T('calcTitle')}</h2><p>${T('calcBandLead')}</p></div><span class="more">${T('calcBandCta')}</span></a>
+      <a class="calccta" href="#wear"><div><p class="eyebrow">${T('navCalc')}</p><h2>${T('wearTitle')}</h2><p>${T('wearBandLead')}</p></div><span class="more">${T('wearBandCta')}</span></a>
+    </div>
   </section>`;
 }
 function tileHTML(t, models){
@@ -1080,6 +1372,7 @@ function viewType(t){
     <div class="box"><h3>${T('pros')}</h3><ul class="plist plus">${L(t.pros).map(x=>`<li>${x}</li>`).join('')}</ul></div>
     <div class="box"><h3>${T('cons')}</h3><ul class="plist minus">${L(t.cons).map(x=>`<li>${x}</li>`).join('')}</ul></div>
   </section>
+  ${t.note ? `<section class="sec"><div class="notice note"><b>${L(t.note.title)}</b><p>${L(t.note.text)}</p></div></section>` : ''}
   <section class="sec"><h2>${T('rules')}</h2><ul class="plist dot" style="max-width:70ch">${L(t.rules).map(x=>`<li>${x}</li>`).join('')}</ul></section>
   ${t.checklist ? `<section class="sec"><h2>${T('checklist')}</h2><div class="box" style="max-width:72ch"><ul class="plist check">${L(t.checklist).map(x=>`<li>${x}</li>`).join('')}</ul></div></section>` : ''}
   ${ms.length ? `<section class="sec"><h2>${T('modelsOfType')}</h2>
@@ -1104,7 +1397,7 @@ function viewModel(m){
   const numRow = (k,u) => `<div class="srow">${label(k)}<div class="sval">${val(m,k,u)}</div>${meter(k)}</div>`;
   const txtRow = (k,txt,sub) => `<div class="srow">${label(k)}<div class="stext">${txt}${sub?`<small>${sub}</small>`:''}</div></div>`;
   const similar = (main ? typeModels(main) : []).filter(x=>x.id!==m.id).slice(0,4);
-  const host = (()=>{try{return new URL(m.src).hostname.replace(/^www\./,'');}catch(e){return m.src;}})();
+  const host = m.src ? (()=>{try{return new URL(m.src).hostname.replace(/^www\./,'');}catch(e){return m.src;}})() : null;
   return `
   ${crumbs([[T('home'),''],[L(main.name),'type-'+main.id],[m.brand+' '+m.name]])}
   <section class="dhero">
@@ -1119,7 +1412,8 @@ function viewModel(m){
         <a href="#spec-minor">${picto('minor',22)}${m.minor}<small>${T('kN')}</small></a>
         <a href="#spec-open">${picto('open',22)}${m.open==null?'—':m.open}<small>${m.open==null?'':T('kN')}</small></a>
       </div>
-      <p class="src">${T('source')}: <a href="${esc(m.src)}" target="_blank" rel="noopener">${esc(host)}</a></p>
+      <p class="src">${T('source')}: ${m.src ? `<a href="${esc(m.src)}" target="_blank" rel="noopener">${esc(host)}</a>` : T('noSrc')}${m.srcNote ? `<br>${L(m.srcNote)}` : ''}</p>
+      ${m.notice ? `<div class="notice"><b>${T('noticeTitle')}</b><p>${L(m.notice)} <a href="${esc(m.notice.url)}" target="_blank" rel="noopener">${T('noticeLink')}</a></p></div>` : ''}
     </div>
   </section>
   <section class="sec"><h2>${T('specsH')}</h2>
@@ -1216,6 +1510,189 @@ function viewSpecs(){
   </section>`;
 }
 
+/* ---------- fall calculator ---------- */
+const G = 9.81, TEST_MASS = 80, TEST_FACTOR = 1.77, K_DYNEEMA = 197000, POS_FACTOR = {top:1.66, harness:1};
+const fmtN = (v,d) => {const s = v.toFixed(d);return state.lang==='ru' ? s.replace('.',',') : s;};
+const calcModels = () => MODELS.filter(m=>m.material==='al' && m.lock!=='quicklink').sort((a,b)=>(a.brand+a.name).localeCompare(b.brand+b.name));
+// Rope stiffness k (N) from the rated impact force: UIAA test drops 80 kg at fall factor 1.77.
+function ropeK(c){
+  if(c.link==='sling') return K_DYNEEMA;
+  const W0 = TEST_MASS*G, Fi = c.impact*1000;
+  return Fi*(Fi-2*W0)/(2*W0*TEST_FACTOR);
+}
+const peakForce = (W,k,f) => W + Math.sqrt(W*W + 2*W*k*f);
+let HID = 0;
+function hint(text){
+  const id = 'hint'+(++HID);
+  return `<span class="hint"><button type="button" class="hbtn" aria-label="${esc(T('hintLabel'))}" aria-describedby="${id}">?</button><span class="htip" role="tooltip" id="${id}">${text}</span></span>`;
+}
+const fRange = (id,label,hintText,min,max,step,v) => `<div class="field"><div class="flab"><span><label for="${id}">${label}</label>${hint(hintText)}</span><output id="${id}Out" for="${id}"></output></div><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${v}"></div>`;
+const fSelect = (id,label,hintText,opts,cur,note) => `<div class="field"><div class="flab"><span><label for="${id}">${label}</label>${hint(hintText)}</span></div><select id="${id}">${opts.map(([v,t])=>`<option value="${esc(v)}"${v===cur?' selected':''}>${esc(t)}</option>`).join('')}</select>${note?`<small class="muted">${note}</small>`:''}</div>`;
+const fOpt = (type,name,v,label,sub,checked) => `<label class="opt"><input type="${type}" name="${name}" value="${v}"${checked?' checked':''}><span>${label}${sub?`<small>${sub}</small>`:''}</span></label>`;
+const fSet = (legend,hintText,inner) => `<fieldset class="seg"><legend><span>${legend}</span>${hint(hintText)}</legend>${inner}</fieldset>`;
+function calcHead(active){
+  const fall = active==='calc';
+  return `${crumbs([[T('home'),''],[T('navCalc'),'calc'],[fall?T('tabFall'):T('tabWear')]])}
+  <section class="sec" style="padding-top:20px">
+    <nav class="ctabs" aria-label="${esc(T('navCalc'))}"><a href="#calc"${fall?' aria-current="page"':''}>${T('tabFall')}</a><a href="#wear"${fall?'':' aria-current="page"'}>${T('tabWear')}</a></nav>
+    <p class="eyebrow">${fall?T('calcEyebrow'):T('wearEyebrow')}</p>
+    <h1>${fall?T('calcTitle'):T('wearTitle')}</h1>
+    <p class="lead">${fall?T('calcLead'):T('wearLead')}</p>
+  </section>`;
+}
+function viewCalc(){
+  const c = state.calc, sling = c.link==='sling';
+  return `
+  ${calcHead('calc')}
+  <section class="sec calc">
+    <form class="box cform" id="calcForm" onsubmit="return false">
+      ${fSelect('cModel',T('cModel'),T('hModel'),calcModels().map(m=>[m.id,m.brand+' '+m.name]),c.model,T('cOnlyClimbing'))}
+      ${fRange('cMass',T('cMass'),T('hMass'),30,150,1,c.mass)}
+      ${fSet(T('cLink'),T('hLink'),fOpt('radio','cLink','dyn',T('cDyn'),T('cDynHint'),c.link==='dyn')+fOpt('radio','cLink','sling',T('cSling'),T('cSlingHint'),sling))}
+      ${sling ? '' : fRange('cImpact',T('cImpact'),T('hImpact'),7,11.5,0.1,c.impact)}
+      ${fRange('cLen',sling?T('cLenSling'):T('cLenDyn'),sling?T('hLenSling'):T('hLenDyn'),sling?0.3:2,sling?2.4:60,sling?0.1:1,c.len)}
+      ${fRange('cFall',T('cFall'),T('hFall'),0,(2*c.len).toFixed(1),0.1,c.fall)}
+      ${fSet(T('cPos'),T('hPos'),fOpt('radio','cPos','top',T('cPosTop'),T('cPosTopHint'),c.pos==='top')+fOpt('radio','cPos','harness',T('cPosHarness'),T('cPosHarnessHint'),c.pos==='harness'))}
+    </form>
+    <div class="calc-out" id="calcOut" aria-live="polite"></div>
+  </section>
+  <section class="sec specgrid">
+    <div class="prose"><div><h3>${T('cHowTitle')}</h3><ul class="plist dot">${T('cHow').map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+    <aside class="box"><h3>${T('cAssumeTitle')}</h3><ul class="plist dot">${T('cAssume').map(x=>`<li>${x}</li>`).join('')}</ul></aside>
+  </section>`;
+}
+function renderCalcOut(){
+  const out = document.getElementById('calcOut'); if(!out) return;
+  const c = state.calc, m = MBY[c.model], W = c.mass*G, k = ropeK(c), L = c.len, h = Math.min(c.fall, 2*L), f = L>0 ? h/L : 0, pos = POS_FACTOR[c.pos];
+  const F = peakForce(W,k,f), Fc = F*pos;
+  const put = (id,txt) => {const el = document.getElementById(id);if(el) el.textContent = txt;};
+  put('cMassOut',`${c.mass} ${T('kg')}`); put('cImpactOut',`${fmtN(c.impact,1)} ${T('kN')}`); put('cLenOut',`${fmtN(L,1)} ${T('m')}`); put('cFallOut',`${fmtN(h,1)} ${T('m')}`);
+  const dirs = [['major',T('dirMajor')],['minor',T('dirMinor')],['open',T('dirOpen')]].map(([key,label])=>{
+    const S = m[key]*1000, ratio = Fc/S, Fb = S/pos;
+    const st = ratio>=1 ? 'break' : ratio>=0.8 ? 'edge' : 'ok';
+    const stText = st==='break' ? T('stBreak') : st==='edge' ? T('stEdge') : T('stOk')(fmtN(S/Fc,1));
+    // Fall factor at which the peak force on the carabiner reaches its strength, for the current weight.
+    const fb = Fb<=2*W ? 0 : Fb*(Fb-2*W)/(2*W*k);
+    const hText = fb===0 ? T('thHZero') : fb>2 ? T('thHNo')(fmtN(fb,1)) : T('thHVal')(fmtN(fb*L,1));
+    // Body weight at which the current fall breaks it: from F = W + sqrt(W² + 2Wkf) solved for W.
+    const mb = Fb*Fb/(2*G*(Fb+k*f));
+    const mText = mb>300 ? T('thMNo') : T('thMVal')(Math.ceil(mb));
+    return `<div class="dir st-${st}">
+      <div class="dhead">${picto(key,24)}<b>${label}</b><span class="mono">${T('ofStrength')(fmtN(Fc/1000,1),m[key])}</span><span class="stchip">${stText}</span></div>
+      <div class="dbar"><i style="width:${Math.min(100,ratio*100).toFixed(1)}%"></i></div>
+      <dl class="thr"><div><dt>${T('thH')}</dt><dd>${hText}</dd></div><div><dt>${T('thM')}</dt><dd>${mText}</dd></div></dl>
+    </div>`;
+  }).join('');
+  out.innerHTML = `<div class="cbig"><p class="eyebrow">${T('cOnBiner')}</p><p class="cforce"><b>${fmtN(Fc/1000,1)}</b> ${T('kN')}</p>
+    <p class="muted">${T('cFactor')} ${fmtN(f,2)} · ${fmtN(F/1000,1)} ${T('kN')} ${T('cOnClimber')} · <a href="#m-${m.id}">${esc(m.brand+' '+m.name)}</a></p></div>${dirs}`;
+}
+function onCalcInput(t){
+  const c = state.calc;
+  if(t.name==='cLink'){
+    c.link = t.value;
+    Object.assign(c, c.link==='sling' ? {len:0.6, fall:0.6, pos:'harness'} : {len:10, fall:4, pos:'top'});
+    render('calc'); return;
+  }
+  if(t.name==='cPos') c.pos = t.value;
+  if(t.id==='cModel') c.model = t.value;
+  if(t.id==='cMass') c.mass = +t.value;
+  if(t.id==='cImpact') c.impact = +t.value;
+  if(t.id==='cFall') c.fall = +t.value;
+  if(t.id==='cLen'){
+    c.len = +t.value;
+    const fall = document.getElementById('cFall');
+    fall.max = (2*c.len).toFixed(1);
+    c.fall = Math.min(c.fall, +(2*c.len).toFixed(1));
+    fall.value = c.fall;
+  }
+  renderCalcOut();
+}
+
+/* ---------- wear calculator ---------- */
+// Wear multipliers are the atlas's own assumptions; the retire verdict comes only from inspection.
+const ENV_WEAR = {gym:1, rock:1.5, sand:4, sea:1.5};
+function viewWear(){
+  const w = state.wear;
+  const models = [...MODELS].sort((a,b)=>(a.brand+a.name).localeCompare(b.brand+b.name)).map(m=>[m.id,m.brand+' '+m.name]);
+  return `
+  ${calcHead('wear')}
+  <section class="sec calc">
+    <form class="box cform" id="wearForm" onsubmit="return false">
+      ${fSelect('wModel',T('wModel'),T('hwModel'),models,w.model)}
+      ${fSet(T('wRole'),T('hwRole'),fOpt('radio','wRole','rope',T('wRoleRope'),T('wRoleRopeSub'),w.role==='rope')+fOpt('radio','wRole','fixed',T('wRoleFixed'),T('wRoleFixedSub'),w.role==='fixed'))}
+      ${fRange('wMonths',T('wMonths'),T('hwMonths'),1,180,1,w.months)}
+      ${fRange('wDays',T('wDays'),T('hwDays'),0,30,1,w.days)}
+      ${fRange('wLowers',T('wLowers'),T('hwLowers'),0,20,1,w.lowers)}
+      ${fRange('wFalls',T('wFalls'),T('hwFalls'),0,500,1,w.falls)}
+      ${fRange('wHard',T('wHard'),T('hwHard'),0,20,1,w.hard)}
+      ${fSelect('wEnv',T('wEnv'),T('hwEnv'),Object.entries(T('envNames')),w.env)}
+      ${fSet(T('wEvents'),T('hwEvents'),fOpt('checkbox','wDrop','1',T('wDrop'),T('wDropSub'),w.drop)+fOpt('checkbox','wSteel','1',T('wSteel'),T('wSteelSub'),w.steel))}
+      ${fSet(T('wInspect'),T('hwInspect'),
+        fSelect('wGroove',T('wGroove'),T('hwGroove'),Object.entries(T('grooveNames')),w.groove)+
+        fSelect('wGate',T('wGate'),T('hwGate'),Object.entries(T('gateNames')),w.gate)+
+        fSelect('wBody',T('wBody'),T('hwBody'),Object.entries(T('bodyNames')),w.body))}
+      ${fSet(T('wSling'),T('hwSling'),fOpt('checkbox','wSlingOn','1',T('wSlingOn'),T('wSlingOnSub'),w.sling))}
+      ${w.sling ? fRange('wSlingYears',T('wSlingYears'),T('hwSlingYears'),0,15,1,w.slingYears) : ''}
+    </form>
+    <div class="calc-out" id="wearOut" aria-live="polite"></div>
+  </section>
+  <section class="sec specgrid">
+    <div class="prose"><div><h3>${T('wHowTitle')}</h3><ul class="plist dot">${T('wHow').map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+    <aside class="box"><h3>${T('cAssumeTitle')}</h3><ul class="plist dot">${T('wAssume').map(x=>`<li>${x}</li>`).join('')}</ul></aside>
+  </section>`;
+}
+function renderWearOut(){
+  const out = document.getElementById('wearOut'); if(!out) return;
+  const w = state.wear, m = MBY[w.model], steel = m.material==='steel';
+  const put = (id,txt) => {const el = document.getElementById(id);if(el) el.textContent = txt;};
+  put('wMonthsOut',T('monthsFmt')(w.months)); put('wDaysOut',T('perMonth')(w.days)); put('wLowersOut',T('perDay')(w.lowers));
+  put('wFallsOut',String(w.falls)); put('wHardOut',String(w.hard)); put('wSlingYearsOut',T('yearsFmt')(w.slingYears));
+  const k = ENV_WEAR[w.env]*(w.role==='rope'?1:0.1)*(steel?0.15:1);
+  const monthly = w.days*w.lowers*k;
+  const total = Math.round(monthly*w.months + w.falls*0.5*k);
+  const band = total<300 ? 'ok' : total<1500 ? 'edge' : 'break';
+  const items = [];
+  const add = (sev,[title,text]) => items.push([sev,title,text]);
+  if(w.groove==='deep') add('break',T('rGrooveDeep'));
+  if(w.gate==='broken') add('break',T('rGateBroken')(m.open));
+  if(w.body==='crack') add('break',T('rCrack'));
+  if(w.gate==='sticky') add('edge',T('rGateSticky'));
+  if(w.drop) add('edge',T('rDrop'));
+  if(w.steel && !steel) add('edge',T('rSteel'));
+  if(w.hard>0) add('edge',T('rHard')(w.hard));
+  if(band==='break') add('edge',T('rHigh'));
+  if(w.sling && w.slingYears>=10) add('edge',T('rSlingOld')(w.slingYears));
+  if(w.groove==='shiny') add('ok',T('rGrooveShiny'));
+  if(w.body==='scratch') add('ok',T('rScratch'));
+  if(w.env==='sea') add('ok',T('rSea'));
+  if(w.sling && w.slingYears>=8 && w.slingYears<10) add('ok',T('rSlingSoon')(w.slingYears));
+  if(!items.length) add('ok',T('rNone'));
+  const verdict = items.some(i=>i[0]==='break') ? 'break' : items.some(i=>i[0]==='edge') ? 'edge' : 'ok';
+  const iv = monthly>=100 ? T('ivEach') : monthly>=20 ? T('ivMonth') : T('ivSeason');
+  out.innerHTML = `<div class="cbig"><p class="eyebrow">${T('wVerdictLabel')}</p>
+      <p class="verdict st-${verdict}"><span class="stchip">${T({ok:'vOk',edge:'vEdge',break:'vBreak'}[verdict])}</span></p>
+      <p class="muted"><a href="#m-${m.id}">${esc(m.brand+' '+m.name)}</a> · ${T('mat')[m.material]}</p></div>
+    <div class="dir st-${band}">
+      <div class="dhead">${picto('material',24)}<b>${T('wExposure')}</b><span class="mono">${T('wExposureVal')(total)}</span><span class="stchip">${T('bandNames')[band]}</span></div>
+      <div class="dbar"><i style="width:${Math.min(100,total/2000*100).toFixed(1)}%"></i></div>
+      <p class="mcap">${T('wCheckEvery')(iv)}</p>
+    </div>
+    <ul class="reasons">${items.map(([sev,title,text])=>`<li class="st-${sev}"><span class="stchip">${T('sevNames')[sev]}</span><div><b>${title}</b><p>${text}</p></div></li>`).join('')}</ul>
+    <p class="mcap">${T('wLife')}</p>`;
+}
+function onWearInput(t){
+  const w = state.wear;
+  const num = {wMonths:'months',wDays:'days',wLowers:'lowers',wFalls:'falls',wHard:'hard',wSlingYears:'slingYears'};
+  const txt = {wModel:'model',wEnv:'env',wGroove:'groove',wGate:'gate',wBody:'body'};
+  if(num[t.id]) w[num[t.id]] = +t.value;
+  if(txt[t.id]) w[txt[t.id]] = t.value;
+  if(t.name==='wRole') w.role = t.value;
+  if(t.name==='wDrop') w.drop = t.checked;
+  if(t.name==='wSteel') w.steel = t.checked;
+  if(t.name==='wSlingOn'){w.sling = t.checked;render('wear');return;}
+  renderWearOut();
+}
+
 /* ---------- router ---------- */
 function render(tok){
   if(heroTimer){clearInterval(heroTimer);heroTimer=null;}
@@ -1226,6 +1703,8 @@ function render(tok){
   else if(tok && tok.startsWith('m-') && MBY[tok.slice(2)]) html = viewModel(MBY[tok.slice(2)]);
   else if(tok && tok.startsWith('spec-') && SBY[tok.slice(5)]){html = viewSpec(SBY[tok.slice(5)]);navKey='specs';}
   else if(tok==='specs'){html = viewSpecs();navKey='specs';}
+  else if(tok==='calc'){html = viewCalc();navKey='calc';after = renderCalcOut;}
+  else if(tok==='wear'){html = viewWear();navKey='calc';after = renderWearOut;}
   else {html = viewHome(); after = () => {renderGroups(); startHeroCycle();}; state.route='';}
   app.innerHTML = html;
   if(after) after();
@@ -1240,7 +1719,7 @@ function renderChrome(){
   document.documentElement.lang = state.lang;
   document.getElementById('logo').innerHTML = `${logoSVG()}<span>${T('brand')}</span>`;
   document.getElementById('logo').setAttribute('aria-label',T('brand'));
-  document.getElementById('nav').innerHTML = `<a href="#" data-k="types">${T('navTypes')}</a><a href="#specs" data-k="specs">${T('navSpecs')}</a>`;
+  document.getElementById('nav').innerHTML = `<a href="#" data-k="types">${T('navTypes')}</a><a href="#specs" data-k="specs"><span class="nl">${T('navSpecs')}</span><span class="ns">${T('navSpecsShort')}</span></a><a href="#calc" data-k="calc"><span class="nl">${T('navCalc')}</span><span class="ns">${T('navCalcShort')}</span></a>`;
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===state.lang)));
   document.getElementById('footer').innerHTML = `<p><b>${T('brand')}</b><br>${T('footer')}</p><p>${T('footerSide')}</p>`;
 }
@@ -1264,7 +1743,11 @@ document.addEventListener('click', e=>{
   const a = e.target.closest('a[href^="#"]');
   if(a){e.preventDefault();go(a.getAttribute('href').slice(1));}
 });
-document.addEventListener('input', e=>{if(e.target.id==='q'){state.q = e.target.value;renderGroups();}});
+document.addEventListener('input', e=>{
+  if(e.target.id==='q'){state.q = e.target.value;renderGroups();return;}
+  if(e.target.closest && e.target.closest('#calcForm')) onCalcInput(e.target);
+  if(e.target.closest && e.target.closest('#wearForm')) onWearInput(e.target);
+});
 window.addEventListener('popstate',()=>render(location.hash.slice(1)));
 window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h!==state.route) render(h);});
 
